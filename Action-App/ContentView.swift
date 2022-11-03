@@ -22,6 +22,7 @@ struct ContentView: View {
     @State private var steapPress = false
     @State private var ageGroup = "Kids"
     @State private var kidsOrMKs = true
+    @State private var animationAmount = 1.0
     
     var practiceTimesPreTeensAndUp: some View{
         VStack{
@@ -52,6 +53,14 @@ struct ContentView: View {
                     .foregroundColor(.black)
                     .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
                     .clipShape(Capsule())
+                    .scaleEffect(animationAmount)
+                    .animation(
+                        .easeInOut(duration: 1).repeatForever(autoreverses: true),
+                        value: animationAmount
+                    )
+                }
+                .onAppear {
+                    animationAmount = 1.2
                 }
                 
                 
