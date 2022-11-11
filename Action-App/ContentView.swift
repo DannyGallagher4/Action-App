@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var ageGroup = "Kids"
     @State private var kidsOrMKs = true
     @State private var animationAmount = 1.0
+    @State private var podiumFinishes = UserDefaults.standard.integer(forKey: "podiumFinishes")
     
     var practiceTimesPreTeensAndUp: some View{
         VStack{
@@ -69,6 +70,43 @@ struct ContentView: View {
                 
                 
                 Image("actio-athletics-logo")
+                Spacer()
+                
+                VStack{
+                    Text("Podium Finishes")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    HStack{
+                        Spacer()
+                        Button{
+                            podiumFinishes -= 1
+                            UserDefaults.standard.set(podiumFinishes, forKey: "podiumFinishes")
+                        } label: {
+                            Text("-")
+                                .foregroundColor(.black)
+                                .fontWeight(.bold)
+                                .font(.largeTitle)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.yellow)
+                        Text("\(podiumFinishes)")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(10)
+                        Button{
+                            podiumFinishes += 1
+                            UserDefaults.standard.set(podiumFinishes, forKey: "podiumFinishes")
+                        } label: {
+                            Text("+")
+                                .foregroundColor(.black)
+                                .fontWeight(.bold)
+                                .font(.largeTitle)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.yellow)
+                        Spacer()
+                    }
+                }
                 Spacer()
                 
                 HStack{
