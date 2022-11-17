@@ -19,10 +19,8 @@ struct ageModifier: ViewModifier{
 
 
 struct ContentView: View {
-    @State private var steapPress = false
     @State private var ageGroup = "Kids"
     @State private var kidsOrMKs = true
-    @State private var animationAmount = 1.0
     @State private var podiumFinishes = UserDefaults.standard.integer(forKey: "podiumFinishes")
     
     var practiceTimesPreTeensAndUp: some View{
@@ -40,13 +38,13 @@ struct ContentView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.blue.ignoresSafeArea()
-            
-            VStack(){
-                Button(action:{
-                    steapPress = true
-                }){
+        NavigationView{
+            VStack{
+                NavigationLink{
+                    
+                    SteapView()
+                    
+                } label: {
                     HStack{
                         Text("What Is STEAP?").fontWeight(.bold)
                     }
@@ -54,23 +52,13 @@ struct ContentView: View {
                     .foregroundColor(.black)
                     .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
                     .clipShape(Capsule())
-                    .scaleEffect(animationAmount)
-                    .animation(
-                        .easeInOut(duration: 1).repeatForever(autoreverses: true),
-                        value: animationAmount
-                    )
                 }
-                .onAppear {
-                    animationAmount = 1.2
-                }
-                
-                
-
-                Spacer()
-                
                 
                 Image("actio-athletics-logo")
-                Spacer()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 90)
+                    .padding(40)
                 
                 VStack{
                     Text("Podium Finishes")
@@ -159,11 +147,13 @@ struct ContentView: View {
                 
                 kidsOrMKs ? AnyView(practiceTimesKidsOrMKS) : AnyView(practiceTimesPreTeensAndUp)
                 
-
-            }.padding(20)
-        }.alert("Strength, Technique, Experience, Accountability, Positivity", isPresented: $steapPress){
-            Button("Return"){}
+                
+            }
+            .padding(20)
+            .background(.blue)
+            .navigationTitle("Action Athletics")
         }
+        .accentColor(.black)
         
     }
 

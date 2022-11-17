@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9607869B2925E10B000AFB00 /* SteapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9607869A2925E10B000AFB00 /* SteapView.swift */; };
 		96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF62900F11D00582AE3 /* Action_AppApp.swift */; };
 		96659DF92900F11D00582AE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF82900F11D00582AE3 /* ContentView.swift */; };
 		96659DFB2900F12200582AE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFA2900F12200582AE3 /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9607869A2925E10B000AFB00 /* SteapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteapView.swift; sourceTree = "<group>"; };
 		96659DF32900F11D00582AE3 /* Action-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Action-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96659DF62900F11D00582AE3 /* Action_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action_AppApp.swift; sourceTree = "<group>"; };
 		96659DF82900F11D00582AE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,6 +37,7 @@
 		96659DEA2900F11D00582AE3 = {
 			isa = PBXGroup;
 			children = (
+				9607869A2925E10B000AFB00 /* SteapView.swift */,
 				96659DF52900F11D00582AE3 /* Action-App */,
 				96659DF42900F11D00582AE3 /* Products */,
 			);
@@ -139,6 +142,7 @@
 			files = (
 				96659DF92900F11D00582AE3 /* ContentView.swift in Sources */,
 				96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */,
+				9607869B2925E10B000AFB00 /* SteapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
