@@ -17,6 +17,19 @@ struct ageModifier: ViewModifier{
     }
 }
 
+struct WarpedWall: Shape{
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+        
+        return path
+    }
+}
+
 
 struct ContentView: View {
     @State private var ageGroup = "Kids"
@@ -95,6 +108,16 @@ struct ContentView: View {
                         Spacer()
                     }
                 }
+                .padding(20)
+                
+                HStack{
+                    Text("Short Warped Wall:")
+                        .font(.headline)
+                    
+                    WarpedWall()
+                        .frame(width: 40, height: 40)
+                }
+                
                 Spacer()
                 
                 HStack{
