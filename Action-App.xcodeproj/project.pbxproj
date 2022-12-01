@@ -12,6 +12,8 @@
 		96659DF92900F11D00582AE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF82900F11D00582AE3 /* ContentView.swift */; };
 		96659DFB2900F12200582AE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFA2900F12200582AE3 /* Assets.xcassets */; };
 		96659DFE2900F12200582AE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFD2900F12200582AE3 /* Preview Assets.xcassets */; };
+		9691190B29385DE90017DA3C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190A29385DE90017DA3C /* UserInfo.swift */; };
+		9691190D29385EDE0017DA3C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190C29385EDE0017DA3C /* UserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		96659DF82900F11D00582AE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		96659DFA2900F12200582AE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96659DFD2900F12200582AE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9691190A29385DE90017DA3C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		9691190C29385EDE0017DA3C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,8 @@
 		96659DEA2900F11D00582AE3 = {
 			isa = PBXGroup;
 			children = (
+				9691190C29385EDE0017DA3C /* UserView.swift */,
+				9691190A29385DE90017DA3C /* UserInfo.swift */,
 				9607869A2925E10B000AFB00 /* SteapView.swift */,
 				96659DF52900F11D00582AE3 /* Action-App */,
 				96659DF42900F11D00582AE3 /* Products */,
@@ -140,7 +146,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9691190B29385DE90017DA3C /* UserInfo.swift in Sources */,
 				96659DF92900F11D00582AE3 /* ContentView.swift in Sources */,
+				9691190D29385EDE0017DA3C /* UserView.swift in Sources */,
 				96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */,
 				9607869B2925E10B000AFB00 /* SteapView.swift in Sources */,
 			);

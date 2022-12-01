@@ -64,6 +64,8 @@ struct SteapView: View {
             .padding([.horizontal, .bottom], 10)
         }
         .ignoresSafeArea()
+        .navigationBarTitle("STEAP")
+        .navigationBarTitleDisplayMode(.inline)
         
     }
 }

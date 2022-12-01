@@ -36,6 +36,8 @@ struct ContentView: View {
     @State private var kidsOrMKs = true
     @State private var podiumFinishes = UserDefaults.standard.integer(forKey: "podiumFinishes")
     
+    @StateObject var user = User()
+    
     var practiceTimesPreTeensAndUp: some View{
         VStack{
             Text("Tuesday 6:30-8:00")
@@ -53,6 +55,18 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             VStack{
+                NavigationLink{
+                    UserView(user: user)
+                } label: {
+                    HStack{
+                        Text("Your Information").fontWeight(.bold)
+                    }
+                    .padding()
+                    .foregroundColor(.black)
+                    .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
+                    .clipShape(Capsule())
+                }
+                
                 NavigationLink{
                     
                     SteapView()
