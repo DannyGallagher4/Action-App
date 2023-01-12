@@ -14,6 +14,7 @@
 		96659DFE2900F12200582AE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFD2900F12200582AE3 /* Preview Assets.xcassets */; };
 		9691190B29385DE90017DA3C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190A29385DE90017DA3C /* UserInfo.swift */; };
 		9691190D29385EDE0017DA3C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190C29385EDE0017DA3C /* UserView.swift */; };
+		96EE9FDE296C77C900E74115 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE9FDD296C77C900E74115 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		96659DFD2900F12200582AE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9691190A29385DE90017DA3C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		9691190C29385EDE0017DA3C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		96EE9FDD296C77C900E74115 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 		96659DEA2900F11D00582AE3 = {
 			isa = PBXGroup;
 			children = (
+				96EE9FDD296C77C900E74115 /* MainView.swift */,
 				9691190C29385EDE0017DA3C /* UserView.swift */,
 				9691190A29385DE90017DA3C /* UserInfo.swift */,
 				9607869A2925E10B000AFB00 /* SteapView.swift */,
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9691190B29385DE90017DA3C /* UserInfo.swift in Sources */,
+				96EE9FDE296C77C900E74115 /* MainView.swift in Sources */,
 				96659DF92900F11D00582AE3 /* ContentView.swift in Sources */,
 				9691190D29385EDE0017DA3C /* UserView.swift in Sources */,
 				96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */,

@@ -7,191 +7,34 @@
 
 import SwiftUI
 
-struct ageModifier: ViewModifier{
-    func body(content: Content) -> some View {
-        content
-            .padding(5)
-            .foregroundColor(.black)
-            .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+
+struct CShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        return Path{ path in
+            path.move(to: CGPoint(x: rect.width, y: 100))
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.addLine(to: CGPoint(x: 0, y: 0))
+        }
     }
 }
 
-struct WarpedWall: Shape{
+struct CShapeSignUp: Shape {
     func path(in rect: CGRect) -> Path {
-        var path = Path()
-        
-        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
-        
-        return path
+        return Path{ path in
+            path.move(to: CGPoint(x: 0, y: 100))
+            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+            path.addLine(to: CGPoint(x: rect.width, y: 0))
+        }
     }
 }
 
 
 struct ContentView: View {
-    @State private var ageGroup = "Kids"
-    @State private var kidsOrMKs = true
-    @State private var podiumFinishes = UserDefaults.standard.integer(forKey: "podiumFinishes")
-    
-    @StateObject var user = User()
-    
-    var practiceTimesPreTeensAndUp: some View{
-        VStack{
-            Text("Tuesday 6:30-8:00")
-            Text("Thursday 6:30-8:00")
-        }
-    }
-    
-    var practiceTimesKidsOrMKS: some View{
-        VStack{
-            Text("Monday 5:30-7:00")
-            Text("Thursday 6:30-8:00")
-        }
-    }
     
     var body: some View {
-        NavigationView{
-            VStack{
-                NavigationLink{
-                    UserView(user: user)
-                } label: {
-                    HStack{
-                        Text("Your Information").fontWeight(.bold)
-                    }
-                    .padding()
-                    .foregroundColor(.black)
-                    .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
-                    .clipShape(Capsule())
-                }
-                
-                NavigationLink{
-                    
-                    SteapView()
-                    
-                } label: {
-                    HStack{
-                        Text("What Is STEAP?").fontWeight(.bold)
-                    }
-                    .padding()
-                    .foregroundColor(.black)
-                    .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
-                    .clipShape(Capsule())
-                }
-                
-                Image("actio-athletics-logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 90)
-                    .padding(40)
-                
-                VStack{
-                    Text("Podium Finishes")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    HStack{
-                        Spacer()
-                        Button{
-                            podiumFinishes -= 1
-                            UserDefaults.standard.set(podiumFinishes, forKey: "podiumFinishes")
-                        } label: {
-                            Text("-")
-                                .foregroundColor(.black)
-                                .fontWeight(.bold)
-                                .font(.largeTitle)
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(.yellow)
-                        Text("\(podiumFinishes)")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding(10)
-                        Button{
-                            podiumFinishes += 1
-                            UserDefaults.standard.set(podiumFinishes, forKey: "podiumFinishes")
-                        } label: {
-                            Text("+")
-                                .foregroundColor(.black)
-                                .fontWeight(.bold)
-                                .font(.largeTitle)
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(.yellow)
-                        Spacer()
-                    }
-                }
-                .padding(20)
-                
-                HStack{
-                    Text("Short Warped Wall:")
-                        .font(.headline)
-                    
-                    WarpedWall()
-                        .frame(width: 40, height: 40)
-                }
-                
-                Spacer()
-                
-                HStack{
-                    Button(action:{
-                        kidsOrMKs = true
-                        ageGroup = "Kids"
-                    }){
-                        Text("Kids")
-                            .modifier(ageModifier())
-                    }
-                    
-                    Button(action:{
-                        kidsOrMKs = true
-                        ageGroup = "Mature Kids"
-                    }){
-                        Text("Mature Kids")
-                            .modifier(ageModifier())
-                    }
-                    
-                    Button(action:{
-                        kidsOrMKs = false
-                        ageGroup = "Pre-Teens"
-                    }){
-                        Text("Pre-Teens")
-                            .modifier(ageModifier())
-                    }
-                    
-                    Button(action:{
-                        kidsOrMKs = false
-                        ageGroup = "Teens"
-                    }){
-                        Text("Teens")
-                            .modifier(ageModifier())
-                    }
-                    
-                    Button(action:{
-                        kidsOrMKs = false
-                        ageGroup = "Young Adults"
-                    }){
-                        Text("Young Adults")
-                            .modifier(ageModifier())
-                    }
-                }
-                
-                Text("\(ageGroup) Practice Times")
-                    .fontWeight(.bold)
-                    .font(.title2)
-                    .padding()
-                
-                
-                kidsOrMKs ? AnyView(practiceTimesKidsOrMKS) : AnyView(practiceTimesPreTeensAndUp)
-                
-                
-            }
-            .padding(20)
-            .background(.blue)
-            .navigationTitle("Action Athletics")
-        }
-        .accentColor(.black)
-        
+        Home()
     }
 
 }
@@ -200,4 +43,351 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
+
+struct Home: View{
+    @State var index = 0
+    @State var showingPassword = false
+    
+    var body: some View{
+        
+        GeometryReader{_ in
+            
+            VStack{
+                Spacer()
+                
+                Image("action-athletics-logo")
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                
+                ZStack{
+                    SignUp(index: $index, showingPassword: $showingPassword)
+                        .zIndex(Double(index))
+                    
+                    Login(index: $index, showingPassword: $showingPassword)
+                }
+                
+                HStack(spacing: 15){
+                    
+                    Rectangle()
+                        .fill(.white)
+                        .frame(height: 1)
+                    
+                    Text("OR")
+                        .foregroundColor(.white)
+                    
+                    Rectangle()
+                        .fill(.white)
+                        .frame(height: 1)
+
+                }
+                .padding(.horizontal, 30)
+                .padding(.top, 50)
+                
+                HStack(spacing: 25){
+                    
+                    Button{
+                        
+                        
+                        
+                    } label: {
+                        
+                        Image("google")
+                            .resizable()
+                            .renderingMode(.original)
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                        
+                    }
+                    
+                    Button{
+                        
+                        
+                        
+                    } label: {
+                        
+                        Image("apple")
+                            .resizable()
+                            .renderingMode(.original)
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                        
+                    }
+                    
+                    Button{
+                        
+                        
+                        
+                    } label: {
+                        
+                        Image("fb")
+                            .resizable()
+                            .renderingMode(.original)
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                        
+                    }
+                    
+                }
+                .padding(.top, 30)
+                
+                Spacer()
+                
+            }
+            .padding(.vertical)
+        }
+        .background(Color.ninjaBlue.edgesIgnoringSafeArea(.all))
+        
+    }
+    
+}
+
+struct Login: View{
+    
+    @State var email = ""
+    @State var pass = ""
+    @Binding var index: Int
+    @Binding var showingPassword: Bool
+    
+    var body: some View{
+        ZStack(alignment: .bottom){
+            
+            VStack{
+                
+                HStack{
+                    
+                    VStack(spacing: 10){
+                        Text("Login")
+                            .foregroundColor(index == 0 ? .black : .gray)
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        Capsule()
+                            .fill(index == 0 ? .black : .clear)
+                            .frame(width: 100, height: 5)
+                    }
+                    
+                    Spacer(minLength: 0)
+                    
+                }
+                .padding(.top, 30)
+                
+                VStack{
+                    HStack(spacing: 15){
+                        Image(systemName: "envelope.fill")
+                            .foregroundColor(.ninjaBlue)
+                        
+                        TextField("Email Address", text: $email)
+                    }
+                    
+                    Divider().background(Color.white.opacity(0.5))
+                    
+                    
+                }
+                .padding(.horizontal)
+                .padding(.top, 40)
+                
+                VStack{
+                    HStack(spacing: 15){
+                        Button{
+                            showingPassword.toggle()
+                        } label: {
+                            Image(systemName: showingPassword ? "eye.fill" : "eye.slash.fill")
+                                .foregroundColor(.ninjaBlue)
+                        }
+                        
+                        if showingPassword {
+                            TextField("Password", text: $pass)
+                        }
+                        else {
+                            SecureField("Password", text: $pass)
+                        }
+                    }
+                    
+                    Divider().background(Color.white.opacity(0.5))
+                    
+                    
+                }
+                .padding(.horizontal)
+                .padding(.top, 30)
+                
+                HStack{
+                    Spacer()
+                    
+                    Button(action: {
+                        
+                    }){
+                        Text("Forget Password?")
+                            .foregroundColor(Color.blue.opacity(0.6))
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 30)
+            }
+            .padding()
+            .padding(.bottom, 65)
+            .background(LinearGradient(gradient: Gradient(colors: [.white, .ninjaYellow]), startPoint: .leading, endPoint: .trailing))
+            .clipShape(CShape())
+            .contentShape(CShape())
+            .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: -5)
+            .onTapGesture(){
+                index = 0
+            }
+            .cornerRadius(35)
+            .padding(.horizontal, 20)
+            
+            Button(){
+                
+            } label: {
+                Text("LOGIN")
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .padding(.vertical)
+                    .padding(.horizontal, 50)
+                    .background(.black)
+                    .clipShape(Capsule())
+                    .shadow(color: .white.opacity(0.1), radius: 5, x: 0, y: 5)
+            }
+            .offset(y: 25)
+            .opacity(index == 0 ? 1 : 0)
+            
+        }
+    }
+    
+}
+
+struct SignUp: View{
+    
+    @State var email = ""
+    @State var pass = ""
+    @State var Repass = ""
+    @Binding var index: Int
+    
+    @Binding var showingPassword: Bool
+    
+    var body: some View{
+        ZStack(alignment: .bottom){
+            
+            VStack{
+                
+                HStack{
+                    
+                    Spacer(minLength: 0)
+                    
+                    VStack(spacing: 10){
+                        
+                        Text("SignUp")
+                            .foregroundColor(index == 1 ? .black : .gray)
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        Capsule()
+                            .fill(index == 1 ? .black : .clear)
+                            .frame(width: 100, height: 5)
+                        
+                    }
+                    
+                }
+                .padding(.top, 30)
+                
+                VStack{
+                    HStack(spacing: 15){
+                        Image(systemName: "envelope.fill")
+                            .foregroundColor(.ninjaBlue)
+                        
+                        TextField("Email Address", text: $email)
+                    }
+                    
+                    Divider().background(Color.white.opacity(0.5))
+                    
+                    
+                }
+                .padding(.horizontal)
+                .padding(.top, 40)
+                
+                VStack{
+                    HStack(spacing: 15){
+                        Button{
+                            showingPassword.toggle()
+                        } label: {
+                            Image(systemName: showingPassword ? "eye.fill" : "eye.slash.fill")
+                                .foregroundColor(.ninjaBlue)
+                        }
+                        
+                        if showingPassword {
+                            TextField("Password", text: $pass)
+                        }
+                        else {
+                            SecureField("Password", text: $pass)
+                        }
+                            
+                    }
+                    
+                    Divider().background(Color.white.opacity(0.5))
+                    
+                    
+                }
+                .padding(.horizontal)
+                .padding(.top, 30)
+                
+                VStack{
+                    HStack(spacing: 15){
+                        Button{
+                            showingPassword.toggle()
+                        } label: {
+                            Image(systemName: showingPassword ? "eye.fill" : "eye.slash.fill")
+                                .foregroundColor(.ninjaBlue)
+                        }
+                        
+                        if showingPassword {
+                            TextField("Re-Enter Password", text: $Repass)
+                        }
+                        else {
+                            SecureField("Re-Enter Password", text: $Repass)
+                        }
+                    }
+                    
+                    Divider().background(Color.white.opacity(0.5))
+                    
+                    
+                }
+                .padding(.horizontal)
+                .padding(.top, 30)
+                
+            }
+            .padding()
+            .padding(.bottom, 65)
+            .background(LinearGradient(gradient: Gradient(colors: [.white, .ninjaYellow]), startPoint: .leading, endPoint: .trailing))
+            .clipShape(CShapeSignUp())
+            .contentShape(CShapeSignUp())
+            .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: -5)
+            .onTapGesture(){
+                index = 1
+            }
+            .cornerRadius(35)
+            .padding(.horizontal, 20)
+            
+            Button(){
+                
+            } label: {
+                Text("SIGNUP")
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .padding(.vertical)
+                    .padding(.horizontal, 50)
+                    .background(.black)
+                    .clipShape(Capsule())
+                    .shadow(color: .white.opacity(0.1), radius: 5, x: 0, y: 5)
+            }
+            .offset(y: 25)
+            .opacity(index == 1 ? 1 : 0)
+            
+        }
+    }
+    
+}
+
+extension Color {
+    static let ninjaYellow = Color("NinjaYellow")
+    static let ninjaBlue = Color("NinjaBlue")
 }
