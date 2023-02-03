@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseAuth
 
 
 struct CShape: Shape {
@@ -33,8 +35,17 @@ struct CShapeSignUp: Shape {
 
 struct ContentView: View {
     
+    @State var showingMainView = false
+    @State var showingLoginAndSignUpView = true
+    
+    @StateObject var currentUser = CurrentUser(myId: "", myEmail: "")
+    
     var body: some View {
-        Home()
+        if showingLoginAndSignUpView{
+            LoginAndSignUpView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+        } else if showingMainView{
+            MainView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+        }
     }
 
 }
@@ -45,94 +56,35 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct Home: View{
+struct LoginAndSignUpView: View{
     @State var index = 0
     @State var showingPassword = false
+    @State var coachSignUp = false
+    
+    @State var coaches = UserDefaults.standard.object(forKey: "coaches") as? [String] ?? [String]()
+    
+    @Binding var showingMainView: Bool
+    @Binding var showingLoginAndSignUpView: Bool
+    @ObservedObject var currentUser: CurrentUser
     
     var body: some View{
         
         GeometryReader{_ in
             
             VStack{
-                Spacer()
                 
                 Image("action-athletics-logo")
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 140, height: 140)
+                    .padding(.top, 40)
                 
                 ZStack{
-                    SignUp(index: $index, showingPassword: $showingPassword)
+                    SignUpView(index: $index, showingPassword: $showingPassword, coachSignUp: $coachSignUp, showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView)
                         .zIndex(Double(index))
                     
-                    Login(index: $index, showingPassword: $showingPassword)
+                    LoginView(index: $index, showingPassword: $showingPassword, showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
                 }
-                
-                HStack(spacing: 15){
-                    
-                    Rectangle()
-                        .fill(.white)
-                        .frame(height: 1)
-                    
-                    Text("OR")
-                        .foregroundColor(.white)
-                    
-                    Rectangle()
-                        .fill(.white)
-                        .frame(height: 1)
-
-                }
-                .padding(.horizontal, 30)
-                .padding(.top, 50)
-                
-                HStack(spacing: 25){
-                    
-                    Button{
-                        
-                        
-                        
-                    } label: {
-                        
-                        Image("google")
-                            .resizable()
-                            .renderingMode(.original)
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                        
-                    }
-                    
-                    Button{
-                        
-                        
-                        
-                    } label: {
-                        
-                        Image("apple")
-                            .resizable()
-                            .renderingMode(.original)
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                        
-                    }
-                    
-                    Button{
-                        
-                        
-                        
-                    } label: {
-                        
-                        Image("fb")
-                            .resizable()
-                            .renderingMode(.original)
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                        
-                    }
-                    
-                }
-                .padding(.top, 30)
-                
-                Spacer()
-                
+                .padding(.top, 20)
             }
             .padding(.vertical)
         }
@@ -142,12 +94,20 @@ struct Home: View{
     
 }
 
-struct Login: View{
+struct LoginView: View{
     
     @State var email = ""
     @State var pass = ""
+    @State private var showingPassReset = false
+    @State private var emailForPassReset = ""
+    @State private var showingEmailSent = false
+    
     @Binding var index: Int
     @Binding var showingPassword: Bool
+    @Binding var showingMainView: Bool
+    @Binding var showingLoginAndSignUpView: Bool
+    
+    @ObservedObject var currentUser: CurrentUser
     
     var body: some View{
         ZStack(alignment: .bottom){
@@ -170,7 +130,7 @@ struct Login: View{
                     Spacer(minLength: 0)
                     
                 }
-                .padding(.top, 30)
+                .padding(.top, 40)
                 
                 VStack{
                     HStack(spacing: 15){
@@ -178,6 +138,7 @@ struct Login: View{
                             .foregroundColor(.ninjaBlue)
                         
                         TextField("Email Address", text: $email)
+                            .textCase(.lowercase)
                     }
                     
                     Divider().background(Color.white.opacity(0.5))
@@ -185,7 +146,7 @@ struct Login: View{
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 40)
+                .padding(.top, 60)
                 
                 VStack{
                     HStack(spacing: 15){
@@ -209,20 +170,20 @@ struct Login: View{
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 30)
+                .padding(.top, 40)
                 
                 HStack{
                     Spacer()
                     
                     Button(action: {
-                        
+                        showingPassReset = true
                     }){
                         Text("Forget Password?")
                             .foregroundColor(Color.blue.opacity(0.6))
                     }
                 }
                 .padding(.horizontal)
-                .padding(.top, 30)
+                .padding(.top, 40)
             }
             .padding()
             .padding(.bottom, 65)
@@ -238,6 +199,32 @@ struct Login: View{
             
             Button(){
                 
+                Auth.auth().signIn(withEmail: email, password: pass) { authResult, error in
+                    if let _eror = error{
+                        print(_eror.localizedDescription)
+                    }else{
+                        
+                        if let _res = authResult{
+                            print(_res.user.email ?? "no email")
+                            
+                            currentUser.id = authResult?.user.uid ?? ""
+                            currentUser.email = authResult?.user.email ?? ""
+                            
+                            showingMainView = true
+                            showingLoginAndSignUpView = false
+                            
+                        } else{
+                            print("error with authResult")
+                        }
+
+                    }
+                    
+                    print(currentUser.id + " " + currentUser.email)
+                    
+                    print("loginview \(showingMainView)")
+            
+                }
+
             } label: {
                 Text("LOGIN")
                     .foregroundColor(.white)
@@ -252,18 +239,43 @@ struct Login: View{
             .opacity(index == 0 ? 1 : 0)
             
         }
+        .alert("What email Would You Like To Use To Reset Your Password?", isPresented: $showingPassReset) {
+            
+            TextField("Email", text: $emailForPassReset)
+            HStack{
+                
+                Button("Send Password Reset"){
+                    Auth.auth().sendPasswordReset(withEmail: email) { error in
+                        
+                    }
+                }
+                
+                Button("Cancel"){
+                    showingPassReset = false
+                }
+            }
+            
+        }
     }
     
 }
 
-struct SignUp: View{
+struct SignUpView: View{
     
     @State var email = ""
     @State var pass = ""
     @State var Repass = ""
+    @State var coachKey = ""
+    
     @Binding var index: Int
     
     @Binding var showingPassword: Bool
+    
+    @Binding var coachSignUp: Bool
+    
+    @Binding var showingMainView: Bool
+    
+    @Binding var showingLoginAndSignUpView: Bool
     
     var body: some View{
         ZStack(alignment: .bottom){
@@ -296,6 +308,7 @@ struct SignUp: View{
                             .foregroundColor(.ninjaBlue)
                         
                         TextField("Email Address", text: $email)
+                            .textCase(.lowercase)
                     }
                     
                     Divider().background(Color.white.opacity(0.5))
@@ -354,9 +367,41 @@ struct SignUp: View{
                 .padding(.horizontal)
                 .padding(.top, 30)
                 
+                VStack{
+                    HStack(spacing: 15){
+                        Toggle("Sign Up As A Coach", isOn: $coachSignUp)
+                    }
+                    
+                    if coachSignUp {
+                        
+                        HStack(spacing: 15){
+                            
+                            Button{
+                                showingPassword.toggle()
+                            } label: {
+                                Image(systemName: showingPassword ? "eye.fill" : "eye.slash.fill")
+                                    .foregroundColor(.ninjaBlue)
+                            }
+                            
+                            if showingPassword {
+                                TextField("Coach's Key", text: $coachKey)
+                            }
+                            else {
+                                SecureField("Coach's Key", text: $coachKey)
+                            }
+                            
+                        }
+                        .padding(.top, 5)
+                        
+                        Divider().background(Color.white.opacity(0.5))
+                        
+                    }
+                }
+                .padding()
+                
             }
             .padding()
-            .padding(.bottom, 65)
+            .padding(.bottom, coachSignUp ? 10: 47)
             .background(LinearGradient(gradient: Gradient(colors: [.white, .ninjaYellow]), startPoint: .leading, endPoint: .trailing))
             .clipShape(CShapeSignUp())
             .contentShape(CShapeSignUp())
@@ -368,6 +413,39 @@ struct SignUp: View{
             .padding(.horizontal, 20)
             
             Button(){
+                
+                if pass == Repass{
+                    
+                    Auth.auth().createUser(withEmail: email, password: pass) { authResult, error in
+                        if let _eror = error{
+                            print(_eror.localizedDescription)
+                        }else{
+                            if let _res = authResult{
+                                print(_res.user.email ?? "no email")
+                                
+                                if(coachSignUp){
+                                    if coachKey == "AA"{
+                                        var basicArr = UserDefaults.standard.object(forKey: "coaches") as? [String] ?? [String]()
+                                        print(basicArr)
+                                        basicArr.append(email)
+                                        
+                                        UserDefaults.standard.set(basicArr, forKey: "coaches")
+                                    }
+                                }
+                                
+                                showingMainView = true
+                                showingLoginAndSignUpView = false
+                            }
+            
+                        }
+                        
+                    }
+                    
+                    print(UserDefaults.standard.array(forKey: "coaches") ?? "none")
+                    
+                } else {
+                    print("passwords do not match")
+                }
                 
             } label: {
                 Text("SIGNUP")

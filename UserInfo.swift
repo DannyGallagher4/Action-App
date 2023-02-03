@@ -9,7 +9,7 @@ import SwiftUI
 
 class User: ObservableObject, Codable{
     enum CodingKeys: CodingKey{
-        case name, email, division
+        case name, email, division, isCoach
     }
     
     static let divisions = ["Kids", "Mature Kids", "Pre-Teens", "Teens", "Young Adults"]
@@ -17,6 +17,7 @@ class User: ObservableObject, Codable{
     @Published var name = ""
     @Published var email = ""
     @Published var division = 0
+    @Published var isCoach = false
     
     init(){}
     
@@ -26,6 +27,7 @@ class User: ObservableObject, Codable{
         try container.encode(name, forKey: .name)
         try container.encode(email, forKey: .email)
         try container.encode(division, forKey: .division)
+        try container.encode(isCoach, forKey: .isCoach)
     }
     
     required init(from decoder: Decoder) throws {
@@ -34,5 +36,6 @@ class User: ObservableObject, Codable{
         name = try container.decode(String.self, forKey: .name)
         email = try container.decode(String.self, forKey: .email)
         division = try container.decode(Int.self, forKey: .division)
+        isCoach = try container.decode(Bool.self, forKey: .isCoach)
     }
 }
