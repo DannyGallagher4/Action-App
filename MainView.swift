@@ -59,6 +59,20 @@ struct MainView: View {
                     .clipShape(Capsule())
                 }
                 
+                NavigationLink{
+                    
+                    CalendarView()
+                    
+                } label: {
+                    HStack{
+                        Text("Calendar").fontWeight(.bold)
+                    }
+                    .padding()
+                    .foregroundColor(.black)
+                    .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
+                    .clipShape(Capsule())
+                }
+                
                 Image("action-athletics-logo")
                     .resizable()
                     .scaledToFit()

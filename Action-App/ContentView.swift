@@ -35,8 +35,9 @@ struct CShapeSignUp: Shape {
 
 struct ContentView: View {
     
-    @State var showingMainView = false
-    @State var showingLoginAndSignUpView = true
+    @State var showingMainView = true
+    @State var showingLoginAndSignUpView = false
+    @State var showingCalendarView = false
     
     @StateObject var currentUser = CurrentUser(myId: "", myEmail: "")
     
@@ -45,6 +46,8 @@ struct ContentView: View {
             LoginAndSignUpView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
         } else if showingMainView{
             MainView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+        } else if showingCalendarView{
+            CalendarView()
         }
     }
 

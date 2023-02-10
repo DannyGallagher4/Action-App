@@ -12,6 +12,7 @@
 		96053C1E2971D24000EBE9FA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96053C1D2971D24000EBE9FA /* FirebaseFirestore */; };
 		9607869B2925E10B000AFB00 /* SteapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9607869A2925E10B000AFB00 /* SteapView.swift */; };
 		96234CE0298C3B030096CAFF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96234CDF298C3B030096CAFF /* CalendarView.swift */; };
+		96234CEC298D85D40096CAFF /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */; };
 		96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF62900F11D00582AE3 /* Action_AppApp.swift */; };
 		96659DF92900F11D00582AE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF82900F11D00582AE3 /* ContentView.swift */; };
 		96659DFB2900F12200582AE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFA2900F12200582AE3 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		96053C182971D13E00EBE9FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9607869A2925E10B000AFB00 /* SteapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteapView.swift; sourceTree = "<group>"; };
 		96234CDF298C3B030096CAFF /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		96659DF32900F11D00582AE3 /* Action-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Action-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96659DF62900F11D00582AE3 /* Action_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action_AppApp.swift; sourceTree = "<group>"; };
 		96659DF82900F11D00582AE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				96234CDF298C3B030096CAFF /* CalendarView.swift */,
+				96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */,
 				96A675E82982FD0F0079527A /* CurrentUser.swift */,
 				96053C182971D13E00EBE9FA /* GoogleService-Info.plist */,
 				96EE9FDD296C77C900E74115 /* MainView.swift */,
@@ -177,6 +180,7 @@
 				9691190D29385EDE0017DA3C /* UserView.swift in Sources */,
 				96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */,
 				96A675E92982FD0F0079527A /* CurrentUser.swift in Sources */,
+				96234CEC298D85D40096CAFF /* CalendarHeaderView.swift in Sources */,
 				9607869B2925E10B000AFB00 /* SteapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
