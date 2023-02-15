@@ -35,9 +35,9 @@ struct CShapeSignUp: Shape {
 
 struct ContentView: View {
     
-    @State var showingMainView = true
+    @State var showingMainView = false
     @State var showingLoginAndSignUpView = false
-    @State var showingCalendarView = false
+    @State var showingCalendarView = true
     
     @StateObject var currentUser = CurrentUser(myId: "", myEmail: "")
     

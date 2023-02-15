@@ -57,32 +57,16 @@ struct CalendarView: View {
         NavigationView{
             VStack{
                 
-                Text("\(month) \(year)")
+                Text("\(month) \(String(year))")
                     .font(.title2)
-                    .padding(.top, 100)
                 
                 HStack{
                     
                     Button(){
                         
                         weeksForwardCounter -= 1
-                        let date = Date()
-                        let calendar = Calendar.current
-                        let newDate = calendar.date(byAdding: .weekOfYear, value: 2*weeksForwardCounter, to: date)
                         
-                        var components = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: newDate!)
-                        components.weekday = 1
-                        lastSunday = calendar.date(from: components)!
-                        
-                        nextSunday = calendar.nextDate(after: newDate!, matching: .init(weekday: 1), matchingPolicy: .nextTime)!
-                        
-                        let monthTest = calendar.component(.month, from: newDate!)
-
-                        month = DateFormatter().monthSymbols[monthTest-1]
-                        
-                        monthNum = calendar.component(.month, from: newDate!)
-                        
-                        year = calendar.component(.year, from: newDate!)
+                        getNewDateValues()
                         
                     } label: {
                         
@@ -106,22 +90,8 @@ struct CalendarView: View {
                     Button(){
                         
                         weeksForwardCounter += 1
-                        let date = Date()
-                        let calendar = Calendar.current
-                        let newDate = calendar.date(byAdding: .weekOfYear, value: 2*weeksForwardCounter, to: date)
                         
-                        var components = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: newDate!)
-                        components.weekday = 1
-                        lastSunday = calendar.date(from: components)!
-                        
-                        nextSunday = calendar.nextDate(after: newDate!, matching: .init(weekday: 1), matchingPolicy: .nextTime)!
-                        
-                        let monthTest = calendar.component(.month, from: newDate!)
-
-                        month = DateFormatter().monthSymbols[monthTest-1]
-                        
-                        monthNum = calendar.component(.month, from: newDate!)
-                        year = calendar.component(.year, from: newDate!)
+                        getNewDateValues()
                         
                     } label: {
                         
@@ -141,16 +111,39 @@ struct CalendarView: View {
                     Spacer()
                     
                     CalendarHeaderView(lastSunday: nextSunday, monthNum: monthNum)
+                        .padding(.bottom, 10)
+                    
+                    Divider()
                     
                     Spacer()
                 }
                 
             }
+            .padding(.top, 100)
             .background(Color.ninjaBlue.edgesIgnoringSafeArea(.all))
             .ignoresSafeArea()
             .navigationBarTitle("Calendar")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+    
+    func getNewDateValues(){
+        let date = Date()
+        let calendar = Calendar.current
+        let newDate = calendar.date(byAdding: .weekOfYear, value: 2*weeksForwardCounter, to: date)
+        
+        var components = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: newDate!)
+        components.weekday = 1
+        lastSunday = calendar.date(from: components)!
+        
+        nextSunday = calendar.nextDate(after: newDate!, matching: .init(weekday: 1), matchingPolicy: .nextTime)!
+        
+        let monthTest = calendar.component(.month, from: lastSunday)
+
+        month = DateFormatter().monthSymbols[monthTest-1]
+        
+        monthNum = calendar.component(.month, from: newDate!)
+        year = calendar.component(.year, from: newDate!)
     }
 }
 
