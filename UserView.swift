@@ -77,7 +77,7 @@ struct UserView: View {
             }
             .background(Color.ninjaBlue.edgesIgnoringSafeArea(.all))
             .ignoresSafeArea()
-            .navigationBarTitle("Your Information")
+            .navigationTitle("Your Information")
             .navigationBarTitleDisplayMode(.inline)
         }
         

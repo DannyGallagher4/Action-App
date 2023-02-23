@@ -21,9 +21,10 @@
 		9691190B29385DE90017DA3C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190A29385DE90017DA3C /* UserInfo.swift */; };
 		9691190D29385EDE0017DA3C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190C29385EDE0017DA3C /* UserView.swift */; };
 		969A7FB2299A9A3B0052A5EA /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A7FB1299A9A3B0052A5EA /* DayView.swift */; };
-		969A7FB4299AA0DD0052A5EA /* EventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A7FB3299AA0DD0052A5EA /* EventItem.swift */; };
-		969A7FB6299AA2410052A5EA /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A7FB5299AA2410052A5EA /* Events.swift */; };
 		96A675E92982FD0F0079527A /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A675E82982FD0F0079527A /* CurrentUser.swift */; };
+		96DA467C299FF776007E5352 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA467B299FF776007E5352 /* CustomDatePickerView.swift */; };
+		96DA4680299FFBDF007E5352 /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA467F299FFBDF007E5352 /* DateValue.swift */; };
+		96DA468429A008ED007E5352 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA468329A008ED007E5352 /* Event.swift */; };
 		96EE9FDE296C77C900E74115 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE9FDD296C77C900E74115 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,9 +42,10 @@
 		9691190A29385DE90017DA3C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		9691190C29385EDE0017DA3C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		969A7FB1299A9A3B0052A5EA /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
-		969A7FB3299AA0DD0052A5EA /* EventItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItem.swift; sourceTree = "<group>"; };
-		969A7FB5299AA2410052A5EA /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		96A675E82982FD0F0079527A /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		96DA467B299FF776007E5352 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
+		96DA467F299FFBDF007E5352 /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
+		96DA468329A008ED007E5352 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		96EE9FDD296C77C900E74115 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,8 +68,9 @@
 				969A7FB1299A9A3B0052A5EA /* DayView.swift */,
 				968A3A24299D4CF900E25B83 /* AddEventView.swift */,
 				96234CDF298C3B030096CAFF /* CalendarView.swift */,
-				969A7FB3299AA0DD0052A5EA /* EventItem.swift */,
-				969A7FB5299AA2410052A5EA /* Events.swift */,
+				96DA467B299FF776007E5352 /* CustomDatePickerView.swift */,
+				96DA468329A008ED007E5352 /* Event.swift */,
+				96DA467F299FFBDF007E5352 /* DateValue.swift */,
 				96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */,
 				96A675E82982FD0F0079527A /* CurrentUser.swift */,
 				96053C182971D13E00EBE9FA /* GoogleService-Info.plist */,
@@ -185,19 +188,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				969A7FB6299AA2410052A5EA /* Events.swift in Sources */,
 				9691190B29385DE90017DA3C /* UserInfo.swift in Sources */,
 				969A7FB2299A9A3B0052A5EA /* DayView.swift in Sources */,
 				96EE9FDE296C77C900E74115 /* MainView.swift in Sources */,
 				96234CE0298C3B030096CAFF /* CalendarView.swift in Sources */,
+				96DA467C299FF776007E5352 /* CustomDatePickerView.swift in Sources */,
 				968A3A25299D4CF900E25B83 /* AddEventView.swift in Sources */,
 				96659DF92900F11D00582AE3 /* ContentView.swift in Sources */,
+				96DA468429A008ED007E5352 /* Event.swift in Sources */,
 				9691190D29385EDE0017DA3C /* UserView.swift in Sources */,
+				96DA4680299FFBDF007E5352 /* DateValue.swift in Sources */,
 				96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */,
 				96A675E92982FD0F0079527A /* CurrentUser.swift in Sources */,
 				96234CEC298D85D40096CAFF /* CalendarHeaderView.swift in Sources */,
 				9607869B2925E10B000AFB00 /* SteapView.swift in Sources */,
-				969A7FB4299AA0DD0052A5EA /* EventItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

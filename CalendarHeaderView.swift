@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CalendarHeaderView: View {
     
-    //@State private var currentWeekNum = Calendar.current.component(.weekOfYear, from: Date())
     let lastSunday: Date
     let daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"]
     let daysInWeek = 7
@@ -20,45 +19,21 @@ struct CalendarHeaderView: View {
     
     
     var body: some View {
-        
-        GeometryReader{ geo in
-            
-            VStack{
+        HStack {
+            ForEach(0...6, id: \.self) { dayIdx in
+                let weekdayLetter: String = daysOfWeek[dayIdx]
+                let day: Int = Calendar.current.component(.day, from: lastSunday)
+                let weekdayNumber: Int = day + dayIdx > daysInMonth[monthNum-1] ? day + dayIdx - daysInMonth[monthNum-1] : day + dayIdx
                 
-                HStack{
-                    ForEach(daysOfWeek, id: \.self){day in
-                        
-                        Text(day)
-                            .frame(width: geo.size.width/8)
-                    }
+                VStack(spacing: 6) {
+                    Text("\(weekdayLetter)")
+                        .foregroundColor(.black)
+                        .font(.caption)
+                    
+                    Text("\(weekdayNumber)")
                 }
-                
-                HStack{
-                    ForEach(0..<daysInWeek, id: \.self){num in
-                        
-                        if(Calendar.current.component(.day, from: lastSunday) + num > daysInMonth[monthNum-1]){
-                            
-                            Text("\(Calendar.current.component(.day, from: lastSunday) + num - daysInMonth[monthNum-1])")
-                                .frame(width: geo.size.width/8)
-                                .padding(.top, 5)
-                            
-                        } else {
-                            
-                            Text("\(Calendar.current.component(.day, from: lastSunday) + num)")
-                                .frame(width: geo.size.width/8)
-                                .padding(.top, 5)
-                            
-                        }
-                    }
-                }
-                
-//                Text("\(currentWeekNum)")
-//                Text(lastSunday, style: .date)
-                
+                .frame(maxWidth: .infinity, alignment: .center)
             }
-            .padding(.top, 20)
         }
-        .background(Color.ninjaBlue.edgesIgnoringSafeArea(.all))
-        
     }
 }
