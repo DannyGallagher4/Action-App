@@ -10,7 +10,13 @@ import SwiftUI
 struct Event: Identifiable{
     var id = UUID().uuidString
     var title: String
-    var time: Date = Date()
+    var hourStart: Int
+    var hourEnd: Int
+    var minuteStart: Int
+    var minuteEnd: Int
+    var startIsAM: Bool
+    var endIsAM: Bool
+    var ageGroupsInvolved: [String]
 }
 
 struct EventMetaData: Identifiable{
@@ -30,16 +36,16 @@ func getSampleDate(offset: Int)->Date{
 var events: [EventMetaData] = [
 
     EventMetaData(event: [
-        Event(title: "Practice for pre-teens"),
-        Event(title: "Practice for teens"),
-        Event(title: "Practice for young adults")
+        Event(title: "Practice for pre-teens", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Pre-Teens"]),
+        Event(title: "Practice for teens", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Teens"]),
+        Event(title: "Practice for young adults", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Young Adults"])
     ], eventDate: getSampleDate(offset: 1)),
     EventMetaData(event: [
-        Event(title: "Practice for kids"),
-        Event(title: "Practice for mature kids"),
+        Event(title: "Practice for kids", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Kids"]),
+        Event(title: "Practice for mature kids", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Mature Kids"]),
     ], eventDate: getSampleDate(offset: -3)),
     EventMetaData(event: [
-        Event(title: "Meet against Vitality"),
+        Event(title: "Meet against Vitality", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Kids", "Mature Kids", "Pre-Teens", "Teens", "Young Adults"]),
     ], eventDate: getSampleDate(offset: 8)),
 
 ]

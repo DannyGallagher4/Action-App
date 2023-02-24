@@ -86,12 +86,22 @@ struct CustomDatePickerView: View {
                 }){
                     
                     ForEach(event.event){ event in
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(event.time
-                                .addingTimeInterval(CGFloat.random(in: 0...5000)), style: .time)
+                        HStack{
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("\(String(format: "%0d:%02d", event.startIsAM ? event.hourStart : event.hourStart-12, event.minuteStart)) \(event.startIsAM ? "AM" : "PM") - \(String(format: "%0d:%02d", event.endIsAM ? event.hourEnd : event.hourEnd-12, event.minuteEnd)) \(event.endIsAM ? "AM" : "PM")")
+                                
+                                Text(event.title)
+                                    .font(.title2.bold())
+                            }
                             
-                            Text(event.title)
-                                .font(.title2.bold())
+                            Spacer()
+                            
+                            VStack(alignment: .trailing){
+                                ForEach(event.ageGroupsInvolved, id: \.self){group in
+                                    Text("\(group)")
+                                        .font(.caption)
+                                }
+                            }
                         }
                         .padding(.vertical, 10)
                         .padding(.horizontal)
