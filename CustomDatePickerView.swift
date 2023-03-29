@@ -30,18 +30,14 @@ struct CustomDatePickerView: View {
                 Spacer(minLength: 0)
                 
                 Button{
-                   // withAnimation{
-                        currentMonth -= 1
-                   // }
+                    currentMonth -= 1
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.title2)
                 }
                 
                 Button{
-                    //withAnimation{
-                        currentMonth += 1
-                   // }
+                    currentMonth += 1
                 } label: {
                     Image(systemName: "chevron.right")
                         .font(.title2)
@@ -60,11 +56,12 @@ struct CustomDatePickerView: View {
             
             let columns = Array(repeating: GridItem(.flexible()), count: 7)
             
-            LazyVGrid(columns: columns, spacing: 15){
+            LazyVGrid(columns: columns, spacing: 20){
                 ForEach(extractDate()){ value in
                     CardView(value: value)
                         .background(
-                            Capsule()
+                            Circle()
+                                .offset(x: 0, y: -8)
                                 .fill(.gray)
                                 .padding(.horizontal, 8)
                                 .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
@@ -79,16 +76,16 @@ struct CustomDatePickerView: View {
                 Text("Events")
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, 20)
+                   // .padding(.vertical, 20)
                 
                 if let event = events.first(where: {event in
-                    return isSameDay(date1: event.eventDate, date2: currentDate)
+                    return isSameDay(date1: event.start_date, date2: currentDate)
                 }){
                     
-                    ForEach(event.event){ event in
+                    ForEach(event){ event in
                         HStack{
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("\(String(format: "%0d:%02d", event.startIsAM ? event.hourStart : event.hourStart-12, event.minuteStart)) \(event.startIsAM ? "AM" : "PM") - \(String(format: "%0d:%02d", event.endIsAM ? event.hourEnd : event.hourEnd-12, event.minuteEnd)) \(event.endIsAM ? "AM" : "PM")")
+                                Text("\(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteStart)) \(event.startIsAM ? "AM" : "PM") - \(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteEnd)) \(event.endIsAM ? "AM" : "PM")")
                                 
                                 Text(event.title)
                                     .font(.title2.bold())
@@ -107,7 +104,7 @@ struct CustomDatePickerView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(
-                            Color.ninjaYellow.opacity(0.5)
+                            event.eventColor()
                                 .cornerRadius(10)
                         )
                     }
@@ -129,17 +126,18 @@ struct CustomDatePickerView: View {
         VStack{
             if value.day != -1{
                 if let event = events.first(where: { event in
-                    return isSameDay(date1: event.eventDate, date2: value.date)
+                    return isSameDay(date1: event.start_date, date2: value.date)
                 }){
                     Text("\(value.day)")
                         .font(.title3.bold())
-                        .foregroundColor(isSameDay(date1: event.eventDate, date2: currentDate) ? .white : .primary)
+                        .foregroundColor(isSameDay(date1: event.start_date, date2: currentDate) ? .white : .primary)
                         .frame(maxWidth: .infinity)
                     Spacer()
-                    
-                    Circle()
-                        .fill(isSameDay(date1: event.eventDate, date2: currentDate) ? .white : Color.ninjaYellow)
-                        .frame(width: 8, height: 8)
+                    ForEach(event){ eventSpecific in
+                        Circle()
+                            .fill( eventSpecific.eventColor())
+                            .frame(width: 8, height: 8)
+                    }
                 } else {
                     Text("\(value.day)")
                         .font(.title3.bold())
@@ -151,6 +149,18 @@ struct CustomDatePickerView: View {
         }
         .padding(.vertical, 9)
         .frame(height: 60, alignment: .top)
+    }
+    
+    func getHourTime(hour: Int, isAM: Bool)->Int{
+        if hour == 0{
+            return 12
+        } else if hour == 12{
+            return 12
+        } else if isAM {
+            return hour
+        } else {
+            return hour - 12
+        }
     }
     
     func isSameDay(date1: Date, date2: Date)->Bool{

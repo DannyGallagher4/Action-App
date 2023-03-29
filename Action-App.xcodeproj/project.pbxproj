@@ -11,16 +11,18 @@
 		96053C1C2971D24000EBE9FA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96053C1B2971D24000EBE9FA /* FirebaseAuth */; };
 		96053C1E2971D24000EBE9FA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96053C1D2971D24000EBE9FA /* FirebaseFirestore */; };
 		9607869B2925E10B000AFB00 /* SteapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9607869A2925E10B000AFB00 /* SteapView.swift */; };
+		961E350429AFD10F00EECB90 /* ColorInforView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961E350329AFD10F00EECB90 /* ColorInforView.swift */; };
 		96234CE0298C3B030096CAFF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96234CDF298C3B030096CAFF /* CalendarView.swift */; };
 		96234CEC298D85D40096CAFF /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */; };
 		96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF62900F11D00582AE3 /* Action_AppApp.swift */; };
 		96659DF92900F11D00582AE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF82900F11D00582AE3 /* ContentView.swift */; };
 		96659DFB2900F12200582AE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFA2900F12200582AE3 /* Assets.xcassets */; };
 		96659DFE2900F12200582AE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFD2900F12200582AE3 /* Preview Assets.xcassets */; };
+		9672A49729B64E09007D1515 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9672A49629B64E09007D1515 /* FirebaseDatabase */; };
+		9672A49929B64E09007D1515 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9672A49829B64E09007D1515 /* FirebaseDatabaseSwift */; };
 		968A3A25299D4CF900E25B83 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A3A24299D4CF900E25B83 /* AddEventView.swift */; };
 		9691190B29385DE90017DA3C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190A29385DE90017DA3C /* UserInfo.swift */; };
 		9691190D29385EDE0017DA3C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190C29385EDE0017DA3C /* UserView.swift */; };
-		969A7FB2299A9A3B0052A5EA /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969A7FB1299A9A3B0052A5EA /* DayView.swift */; };
 		96A675E92982FD0F0079527A /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A675E82982FD0F0079527A /* CurrentUser.swift */; };
 		96DA467C299FF776007E5352 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA467B299FF776007E5352 /* CustomDatePickerView.swift */; };
 		96DA4680299FFBDF007E5352 /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA467F299FFBDF007E5352 /* DateValue.swift */; };
@@ -31,6 +33,7 @@
 /* Begin PBXFileReference section */
 		96053C182971D13E00EBE9FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9607869A2925E10B000AFB00 /* SteapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteapView.swift; sourceTree = "<group>"; };
+		961E350329AFD10F00EECB90 /* ColorInforView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInforView.swift; sourceTree = "<group>"; };
 		96234CDF298C3B030096CAFF /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		96659DF32900F11D00582AE3 /* Action-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Action-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,7 +44,6 @@
 		968A3A24299D4CF900E25B83 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		9691190A29385DE90017DA3C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		9691190C29385EDE0017DA3C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
-		969A7FB1299A9A3B0052A5EA /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		96A675E82982FD0F0079527A /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		96DA467B299FF776007E5352 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		96DA467F299FFBDF007E5352 /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
@@ -54,6 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9672A49929B64E09007D1515 /* FirebaseDatabaseSwift in Frameworks */,
+				9672A49729B64E09007D1515 /* FirebaseDatabase in Frameworks */,
 				96053C1C2971D24000EBE9FA /* FirebaseAuth in Frameworks */,
 				96053C1E2971D24000EBE9FA /* FirebaseFirestore in Frameworks */,
 			);
@@ -65,10 +69,10 @@
 		96659DEA2900F11D00582AE3 = {
 			isa = PBXGroup;
 			children = (
-				969A7FB1299A9A3B0052A5EA /* DayView.swift */,
 				968A3A24299D4CF900E25B83 /* AddEventView.swift */,
 				96234CDF298C3B030096CAFF /* CalendarView.swift */,
 				96DA467B299FF776007E5352 /* CustomDatePickerView.swift */,
+				961E350329AFD10F00EECB90 /* ColorInforView.swift */,
 				96DA468329A008ED007E5352 /* Event.swift */,
 				96DA467F299FFBDF007E5352 /* DateValue.swift */,
 				96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */,
@@ -80,6 +84,7 @@
 				9607869A2925E10B000AFB00 /* SteapView.swift */,
 				96659DF52900F11D00582AE3 /* Action-App */,
 				96659DF42900F11D00582AE3 /* Products */,
+				9672A49529B64E09007D1515 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +115,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		9672A49529B64E09007D1515 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -129,6 +141,8 @@
 			packageProductDependencies = (
 				96053C1B2971D24000EBE9FA /* FirebaseAuth */,
 				96053C1D2971D24000EBE9FA /* FirebaseFirestore */,
+				9672A49629B64E09007D1515 /* FirebaseDatabase */,
+				9672A49829B64E09007D1515 /* FirebaseDatabaseSwift */,
 			);
 			productName = "Action-App";
 			productReference = 96659DF32900F11D00582AE3 /* Action-App.app */;
@@ -188,8 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961E350429AFD10F00EECB90 /* ColorInforView.swift in Sources */,
 				9691190B29385DE90017DA3C /* UserInfo.swift in Sources */,
-				969A7FB2299A9A3B0052A5EA /* DayView.swift in Sources */,
 				96EE9FDE296C77C900E74115 /* MainView.swift in Sources */,
 				96234CE0298C3B030096CAFF /* CalendarView.swift in Sources */,
 				96DA467C299FF776007E5352 /* CustomDatePickerView.swift in Sources */,
@@ -428,6 +442,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 96053C1A2971D24000EBE9FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		9672A49629B64E09007D1515 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96053C1A2971D24000EBE9FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		9672A49829B64E09007D1515 /* FirebaseDatabaseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96053C1A2971D24000EBE9FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabaseSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

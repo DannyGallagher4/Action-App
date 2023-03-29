@@ -6,23 +6,39 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseDatabase
+import FirebaseFirestore
 
 struct Event: Identifiable{
-    var id = UUID().uuidString
+    var id: String
     var title: String
-    var hourStart: Int
-    var hourEnd: Int
-    var minuteStart: Int
-    var minuteEnd: Int
-    var startIsAM: Bool
-    var endIsAM: Bool
+    var start_date: Date
+    var end_date: Date
     var ageGroupsInvolved: [String]
+    var eventType: String
+    func eventColor() -> Color{
+        if eventType == "Practice"{
+            return Color.ninjaYellow
+        } else if eventType == "Competition" {
+            return Color.pink
+        } else {
+            return Color.orange
+        }
+    }
+    
 }
 
-struct EventMetaData: Identifiable{
-    var id = UUID().uuidString
+class EventMetaData: Identifiable{
+    var id: String
     var event: [Event]
     var eventDate: Date
+    
+    init(id: String = UUID().uuidString, event: [Event], eventDate: Date) {
+        self.id = id
+        self.event = event
+        self.eventDate = eventDate
+    }
 }
 
 func getSampleDate(offset: Int)->Date{
@@ -33,19 +49,47 @@ func getSampleDate(offset: Int)->Date{
     return date ?? Date()
 }
 
-var events: [EventMetaData] = [
+let db = Firestore.firestore()
 
+func getNewMonthEvents(date: Date){
+    let calendar = Calendar.current
+    let components = DateComponents(year: calendar.component(.year, from: date), month: calendar.component(.month, from: date))
+    let startDate = calendar.date(from: components)!
+    let endDate = calendar.date(byAdding: .month, value: 1, to: startDate)!
+    
+    let query = db.collection("events")
+        .whereField("start_date", isGreaterThan: startDate)
+        .whereField("start_date", isLessThan: endDate)
+    
+    query.getDocuments() { (querySnapshot, error) in
+        if let error = error {
+            print("Error getting documents: \(error)")
+        } else {
+            for document in querySnapshot!.documents {
+                var data = document.data()
+                var title = data["title"] as? String ?? ""
+                var start_date = data["start_date"] as? Date ?? Date()
+                var end_date = data["end_date"] as? Date ?? Date()
+                var ageGroups = data["age_groups"] as? Array ?? [String]()
+                var type = data["event_type"] as? String ?? ""
+                var newEvent = Event(id: document.documentID, title: title, start_date: start_date, end_date: end_date, ageGroupsInvolved: ageGroups, eventType: type)
+                //events.append(newEvent)
+            }
+        }
+    }
+}
+
+var events: [EventMetaData] = [
     EventMetaData(event: [
-        Event(title: "Practice for pre-teens", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Pre-Teens"]),
-        Event(title: "Practice for teens", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Teens"]),
-        Event(title: "Practice for young adults", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Young Adults"])
+        Event(id: String(UUID()), title: "Practice for pre-teens", start_date: getSampleDate(offset: 1), end_date: getSampleDate(offset: 1), ageGroupsInvolved: ["Pre-Teens"], eventType: "Practice"),
+        Event(id: String(UUID()), title: "Practice for teens", start_date: getSampleDate(offset: 1), end_date: getSampleDate(offset: 1), ageGroupsInvolved: ["Teens"], eventType: "Practice"),
+        Event(id: String(UUID()), title: "Practice for young adults", start_date: getSampleDate(offset: 1), end_date: getSampleDate(offset: 1), ageGroupsInvolved: ["Young Adults"], eventType: "Practice")
     ], eventDate: getSampleDate(offset: 1)),
     EventMetaData(event: [
-        Event(title: "Practice for kids", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Kids"]),
-        Event(title: "Practice for mature kids", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Mature Kids"]),
-    ], eventDate: getSampleDate(offset: -3)),
+        Event(id: String(UUID()), title: "Practice for kids", start_date: getSampleDate(offset: -3), end_date: getSampleDate(offset: -3), ageGroupsInvolved: ["Kids"], eventType: "Practice"),
+        Event(id: String(UUID()), title: "Practice for mature kids", start_date: getSampleDate(offset: -3), end_date: getSampleDate(offset: -3), ageGroupsInvolved: ["Mature Kids"]),
+    ], eventDate: getSampleDate(offset: -3), eventType: "Practice"),
     EventMetaData(event: [
-        Event(title: "Meet against Vitality", hourStart: 18, hourEnd: 20, minuteStart: 30, minuteEnd: 00, startIsAM: false, endIsAM: false, ageGroupsInvolved: ["Kids", "Mature Kids", "Pre-Teens", "Teens", "Young Adults"]),
-    ], eventDate: getSampleDate(offset: 8)),
-
+        Event(id: String(UUID()), title: "Meet against Vitality", start_date: getSampleDate(offset: 8), end_date: getSampleDate(offset: 8), ageGroupsInvolved: ["Kids", "Mature Kids", "Pre-Teens", "Teens", "Young Adults"]),
+    ], eventDate: getSampleDate(offset: 8), eventType: "Competition"),
 ]
