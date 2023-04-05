@@ -74,24 +74,24 @@ struct AddEventView: View {
                     var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start_date)
                     components.hour = hrStart
                     components.minute = minStart
-                    let newStart = calendar.date(from: components)
+                    let newStart = calendar.date(from: components) ?? Date()
                     
                     var end_components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: end_date)
                     end_components.hour = hrEnd
                     end_components.minute = minEnd
-                    let newEnd = calendar.date(from: end_components)
+                    let newEnd = calendar.date(from: end_components) ?? Date()
                     
                     let arrayOfAgeGroups = ageGroupsInvolved.sorted(by: {$0 < $1})
                     
                     
                     events.forEach{ eventMeta in
                         if isSameDay(date1: eventMeta.eventDate, date2: date){
-                            eventMeta.event.append(Event(id: String(UUID()), title: name, start_date: newStart, end_date: newEnd, ageGroupsInvolved: arrayOfAgeGroups, eventType: eventType))
+                            eventMeta.event.append(Event(id: UUID().uuidString, title: name, start_date: newStart, end_date: newEnd, ageGroupsInvolved: arrayOfAgeGroups, eventType: eventType))
                             dismiss()
                         }
                     }
                     
-                    events.append(EventMetaData(event: [Event(title: name, start_date: newStart, end_date: newEnd, ageGroupsInvolved: arrayOfAgeGroups, eventType: eventType)], eventDate: date))
+                    events.append(EventMetaData(event: [Event(id: UUID().uuidString, title: name, start_date: newStart, end_date: newEnd, ageGroupsInvolved: arrayOfAgeGroups, eventType: eventType)], eventDate: date))
                     
                     dismiss()
                 }

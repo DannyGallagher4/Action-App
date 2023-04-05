@@ -49,13 +49,18 @@ func getSampleDate(offset: Int)->Date{
     return date ?? Date()
 }
 
+var events = [EventMetaData]()
+
 let db = Firestore.firestore()
 
 func getNewMonthEvents(date: Date){
+    events = [EventMetaData]()
     let calendar = Calendar.current
     let components = DateComponents(year: calendar.component(.year, from: date), month: calendar.component(.month, from: date))
     let startDate = calendar.date(from: components)!
+//    print(startDate)
     let endDate = calendar.date(byAdding: .month, value: 1, to: startDate)!
+//    print(endDate)
     
     let query = db.collection("events")
         .whereField("start_date", isGreaterThan: startDate)
@@ -66,30 +71,49 @@ func getNewMonthEvents(date: Date){
             print("Error getting documents: \(error)")
         } else {
             for document in querySnapshot!.documents {
-                var data = document.data()
-                var title = data["title"] as? String ?? ""
-                var start_date = data["start_date"] as? Date ?? Date()
-                var end_date = data["end_date"] as? Date ?? Date()
-                var ageGroups = data["age_groups"] as? Array ?? [String]()
-                var type = data["event_type"] as? String ?? ""
-                var newEvent = Event(id: document.documentID, title: title, start_date: start_date, end_date: end_date, ageGroupsInvolved: ageGroups, eventType: type)
-                //events.append(newEvent)
+                let data = document.data()
+                //print(data)
+                let title = data["title"] as? String ?? ""
+                let start_date = data["start_date"] as? Timestamp ?? Timestamp()
+                let end_date = data["end_date"] as? Timestamp ?? Timestamp()
+                
+//                print(title)
+//                print(start_date)
+                
+                
+//                print(start_date)
+//                print(end_date)
+                
+                let ageGroups = data["age_groups"] as? Array ?? [String]()
+                let type = data["event_type"] as? String ?? ""
+                let newEvent = Event(id: document.documentID, title: title, start_date: start_date.dateValue(), end_date: end_date.dateValue(), ageGroupsInvolved: ageGroups, eventType: type)
+                //print(newEvent)
+
+                for eventMeta in events{
+                    if isSameDay(date1: eventMeta.eventDate, date2: start_date.dateValue()){
+                       // print("SUIIII before")
+                        eventMeta.event.append(newEvent)
+                       // print("SUIIII")
+                        break
+                    }
+                }
+                
+                //print("Messi b4")
+                
+                events.append(EventMetaData(id: UUID().uuidString, event: [newEvent], eventDate: start_date.dateValue()))
+                
+//                print("Messi after")
+//                
+//                print(events)
+
             }
         }
     }
 }
 
-var events: [EventMetaData] = [
-    EventMetaData(event: [
-        Event(id: String(UUID()), title: "Practice for pre-teens", start_date: getSampleDate(offset: 1), end_date: getSampleDate(offset: 1), ageGroupsInvolved: ["Pre-Teens"], eventType: "Practice"),
-        Event(id: String(UUID()), title: "Practice for teens", start_date: getSampleDate(offset: 1), end_date: getSampleDate(offset: 1), ageGroupsInvolved: ["Teens"], eventType: "Practice"),
-        Event(id: String(UUID()), title: "Practice for young adults", start_date: getSampleDate(offset: 1), end_date: getSampleDate(offset: 1), ageGroupsInvolved: ["Young Adults"], eventType: "Practice")
-    ], eventDate: getSampleDate(offset: 1)),
-    EventMetaData(event: [
-        Event(id: String(UUID()), title: "Practice for kids", start_date: getSampleDate(offset: -3), end_date: getSampleDate(offset: -3), ageGroupsInvolved: ["Kids"], eventType: "Practice"),
-        Event(id: String(UUID()), title: "Practice for mature kids", start_date: getSampleDate(offset: -3), end_date: getSampleDate(offset: -3), ageGroupsInvolved: ["Mature Kids"]),
-    ], eventDate: getSampleDate(offset: -3), eventType: "Practice"),
-    EventMetaData(event: [
-        Event(id: String(UUID()), title: "Meet against Vitality", start_date: getSampleDate(offset: 8), end_date: getSampleDate(offset: 8), ageGroupsInvolved: ["Kids", "Mature Kids", "Pre-Teens", "Teens", "Young Adults"]),
-    ], eventDate: getSampleDate(offset: 8), eventType: "Competition"),
-]
+func isSameDay(date1: Date, date2: Date)->Bool{
+    let calendar = Calendar.current
+    
+    return calendar.isDate(date1, inSameDayAs: date2)
+}
+

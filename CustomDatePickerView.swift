@@ -79,13 +79,16 @@ struct CustomDatePickerView: View {
                    // .padding(.vertical, 20)
                 
                 if let event = events.first(where: {event in
-                    return isSameDay(date1: event.start_date, date2: currentDate)
+                    return isSameDay(date1: event.eventDate, date2: currentDate)
                 }){
                     
-                    ForEach(event){ event in
+                    ForEach(event.event){ event in
                         HStack{
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("\(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteStart)) \(event.startIsAM ? "AM" : "PM") - \(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteEnd)) \(event.endIsAM ? "AM" : "PM")")
+                                
+                                Text("\(getTimeValue(date: event.start_date)) - \(getTimeValue(date: event.end_date))")
+                                
+                                //Text("\(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteStart)) \(event.startIsAM ? "AM" : "PM") - \(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteEnd)) \(event.endIsAM ? "AM" : "PM")")
                                 
                                 Text(event.title)
                                     .font(.title2.bold())
@@ -117,7 +120,15 @@ struct CustomDatePickerView: View {
             
         }
         .onChange(of: currentMonth){ newValue in
+            print(currentMonth)
+            print(currentDate)
             currentDate = getCurrentMonth()
+            print(currentDate)
+            getNewMonthEvents(date: currentDate)
+            print(currentDate)
+        }
+        .onAppear{
+            getNewMonthEvents(date: currentDate)
         }
     }
     
@@ -126,14 +137,14 @@ struct CustomDatePickerView: View {
         VStack{
             if value.day != -1{
                 if let event = events.first(where: { event in
-                    return isSameDay(date1: event.start_date, date2: value.date)
+                    return isSameDay(date1: event.eventDate, date2: value.date)
                 }){
                     Text("\(value.day)")
                         .font(.title3.bold())
-                        .foregroundColor(isSameDay(date1: event.start_date, date2: currentDate) ? .white : .primary)
+                        .foregroundColor(isSameDay(date1: event.eventDate, date2: currentDate) ? .white : .primary)
                         .frame(maxWidth: .infinity)
                     Spacer()
-                    ForEach(event){ eventSpecific in
+                    ForEach(event.event){ eventSpecific in
                         Circle()
                             .fill( eventSpecific.eventColor())
                             .frame(width: 8, height: 8)
@@ -151,22 +162,11 @@ struct CustomDatePickerView: View {
         .frame(height: 60, alignment: .top)
     }
     
-    func getHourTime(hour: Int, isAM: Bool)->Int{
-        if hour == 0{
-            return 12
-        } else if hour == 12{
-            return 12
-        } else if isAM {
-            return hour
-        } else {
-            return hour - 12
-        }
-    }
-    
-    func isSameDay(date1: Date, date2: Date)->Bool{
-        let calendar = Calendar.current
-        
-        return calendar.isDate(date1, inSameDayAs: date2)
+    func getTimeValue(date: Date)->String{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        let timeString = formatter.string(from: date)
+        return timeString
     }
     
     func extraDate()->[String]{

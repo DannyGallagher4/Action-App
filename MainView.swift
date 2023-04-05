@@ -60,9 +60,7 @@ struct MainView: View {
                 }
                 
                 NavigationLink{
-                    
                     CalendarView()
-                    
                 } label: {
                     HStack{
                         Text("Calendar").fontWeight(.bold)
