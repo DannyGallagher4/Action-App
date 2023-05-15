@@ -6,11 +6,24 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseDatabase
+import FirebaseFirestore
 
 struct CustomDatePickerView: View {
     @Binding var currentDate: Date
     
-    @State var currentMonth: Int = 0
+    @Binding var isCoach: Bool?
+    
+    @State private var currentMonth: Int = 0
+    
+    @State private var events = [EventMetaData]()
+    
+    @State private var showAlert = false
+    
+    @State private var eventToDelete: Event? = nil
+    
+    let db = Firestore.firestore()
     
     var body: some View {
         VStack(spacing: 35){
@@ -86,9 +99,21 @@ struct CustomDatePickerView: View {
                         HStack{
                             VStack(alignment: .leading, spacing: 10) {
                                 
-                                Text("\(getTimeValue(date: event.start_date)) - \(getTimeValue(date: event.end_date))")
+                                if  let isCoach = isCoach{
+                                    if isCoach{
+                                        Button("Delete"){
+                                            eventToDelete = event
+                                            showAlert = true
+                                        }
+                                        .padding(10)
+                                        .background(.white)
+                                        .foregroundColor(.red)
+                                        .clipShape(Capsule())
+                                        
+                                    }
+                                }
                                 
-                                //Text("\(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteStart)) \(event.startIsAM ? "AM" : "PM") - \(String(format: "%0d:%02d", getHourTime(hour: event.hourStart, isAM: event.startIsAM), event.minuteEnd)) \(event.endIsAM ? "AM" : "PM")")
+                                Text("\(getTimeValue(date: event.start_date)) - \(getTimeValue(date: event.end_date))")
                                 
                                 Text(event.title)
                                     .font(.title2.bold())
@@ -120,15 +145,19 @@ struct CustomDatePickerView: View {
             
         }
         .onChange(of: currentMonth){ newValue in
-            print(currentMonth)
-            print(currentDate)
             currentDate = getCurrentMonth()
-            print(currentDate)
             getNewMonthEvents(date: currentDate)
-            print(currentDate)
         }
         .onAppear{
             getNewMonthEvents(date: currentDate)
+        }
+        .alert("Do You Want To Delete This Event?", isPresented: $showAlert) {
+            Button("Yes"){
+                if let eventTo = eventToDelete{
+                    deleteEvent(event: eventTo)
+                }
+            }
+            Button("No"){ }
         }
     }
     
@@ -205,6 +234,57 @@ struct CustomDatePickerView: View {
         }
         
         return days
+    }
+    
+    func getNewMonthEvents(date: Date){
+        events = [EventMetaData]()
+        let calendar = Calendar.current
+        let components = DateComponents(year: calendar.component(.year, from: date), month: calendar.component(.month, from: date))
+        let startDate = calendar.date(from: components)!
+        let endDate = calendar.date(byAdding: .month, value: 1, to: startDate)!
+        
+        let query = db.collection("events")
+            .whereField("start_date", isGreaterThan: startDate)
+            .whereField("start_date", isLessThan: endDate)
+        
+        query.getDocuments() { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let title = data["title"] as? String ?? ""
+                    let start_date = data["start_date"] as? Timestamp ?? Timestamp()
+                    let end_date = data["end_date"] as? Timestamp ?? Timestamp()
+                    
+                    let ageGroups = data["age_groups"] as? Array ?? [String]()
+                    let type = data["event_type"] as? String ?? ""
+                    let newEvent = Event(id: document.documentID, title: title, start_date: start_date.dateValue(), end_date: end_date.dateValue(), ageGroupsInvolved: ageGroups, eventType: type)
+
+                    for eventMeta in events{
+                        if isSameDay(date1: eventMeta.eventDate, date2: start_date.dateValue()){
+                            eventMeta.event.append(newEvent)
+                            break
+                        }
+                    }
+                    
+                    events.append(EventMetaData(id: UUID().uuidString, event: [newEvent], eventDate: start_date.dateValue()))
+
+                }
+            }
+        }
+    }
+    
+    func deleteEvent(event: Event){
+        let id = event.id
+        
+        db.collection("events").document("\(id)").delete() { error in
+            if let error = error {
+                print("Error removing document: \(error)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
     }
 }
 

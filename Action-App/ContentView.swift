@@ -199,7 +199,7 @@ struct LoginView: View{
             
             Button(){
                 
-                Auth.auth().signIn(withEmail: email, password: pass) { authResult, error in
+                FirebaseManager.shared.auth.signIn(withEmail: email, password: pass) { authResult, error in
                     if let _eror = error{
                         print(_eror.localizedDescription)
                     }else{
@@ -266,6 +266,10 @@ struct SignUpView: View{
     @State var pass = ""
     @State var Repass = ""
     @State var coachKey = ""
+    
+    @State var showAlert = false
+    
+    @State var alertMsg = ""
     
     @Binding var index: Int
     
@@ -414,38 +418,7 @@ struct SignUpView: View{
             
             Button(){
                 
-                if pass == Repass{
-                    
-                    Auth.auth().createUser(withEmail: email, password: pass) { authResult, error in
-                        if let _eror = error{
-                            print(_eror.localizedDescription)
-                        }else{
-                            if let _res = authResult{
-                                print(_res.user.email ?? "no email")
-                                
-                                if(coachSignUp){
-                                    if coachKey == "AA"{
-                                        var basicArr = UserDefaults.standard.object(forKey: "coaches") as? [String] ?? [String]()
-                                        print(basicArr)
-                                        basicArr.append(email)
-                                        
-                                        UserDefaults.standard.set(basicArr, forKey: "coaches")
-                                    }
-                                }
-                                
-                                showingMainView = true
-                                showingLoginAndSignUpView = false
-                            }
-            
-                        }
-                        
-                    }
-                    
-                    print(UserDefaults.standard.array(forKey: "coaches") ?? "none")
-                    
-                } else {
-                    print("passwords do not match")
-                }
+                storeUserInformation()
                 
             } label: {
                 Text("SIGNUP")
@@ -461,6 +434,110 @@ struct SignUpView: View{
             .opacity(index == 1 ? 1 : 0)
             
         }
+        .alert(alertMsg, isPresented: $showAlert) {
+            Button("Close", role: .cancel){ }
+        }
+    }
+    
+    private func storeUserInformation(){
+        
+        
+        
+        if pass == Repass{
+            if coachSignUp{
+                if coachKey == "AA"{
+                    FirebaseManager.shared.auth.createUser(withEmail: email, password: pass) { authResult, error in
+                        if let _eror = error{
+                            print(_eror.localizedDescription)
+                        }else{
+                            if let _res = authResult{
+                                print(_res.user.email ?? "no email")
+                                
+                                guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+                                
+                                let userData = ["email": email, "uid": uid, "isCoach": true] as [String : Any]
+                                FirebaseManager.shared.firestore.collection("users")
+                                        .document(uid).setData(userData) { err in
+                                            if let err = err {
+                                                print(err)
+                                                return
+                                            }
+                                        }
+                                
+                                showingMainView = true
+                                showingLoginAndSignUpView = false
+                            }
+                            
+                        }
+                    }
+                } else {
+                    alertMsg = "Wrong Coach Key"
+                    showAlert = true
+                }
+            } else {
+                FirebaseManager.shared.auth.createUser(withEmail: email, password: pass) { authResult, error in
+                    if let _eror = error{
+                        print(_eror.localizedDescription)
+                    }else{
+                        if let _res = authResult{
+                            print(_res.user.email ?? "no email")
+                            
+                            guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+                            
+                            let userData = ["email": email, "uid": uid, "isCoach": false] as [String : Any]
+                            FirebaseManager.shared.firestore.collection("users")
+                                .document(uid).setData(userData) { err in
+                                    if let err = err {
+                                        print(err)
+                                        return
+                                    }
+                                }
+                            
+                            showingMainView = true
+                            showingLoginAndSignUpView = false
+                                
+                        }
+        
+                    }
+                    
+                }
+            }
+        } else {
+            alertMsg = "Passwords do not match"
+            showAlert = true
+        }
+        
+        
+//        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+//
+//        if coachSignUp {
+//            if coachKey == "AA"{
+//                let userData = ["email": email, "uid": uid, "isCoach": true] as [String : Any]
+//                FirebaseManager.shared.firestore.collection("users")
+//                        .document(uid).setData(userData) { err in
+//                            if let err = err {
+//                                print(err)
+//                                return
+//                            }
+//                        }
+//            } else {
+//                alertMsg = "Wrong Coach Key"
+//                showAlert = true
+//                finishSignUp = false
+//            }
+//        } else {
+//
+//            let userData = ["email": email, "uid": uid, "isCoach": false] as [String : Any]
+//            FirebaseManager.shared.firestore.collection("users")
+//                .document(uid).setData(userData) { err in
+//                    if let err = err {
+//                        print(err)
+//                        return
+//                    }
+//
+//                    finishSignUp = true
+//                }
+//        }
     }
     
 }

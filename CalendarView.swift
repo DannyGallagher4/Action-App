@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseDatabase
+import FirebaseFirestore
 
 struct ConditionalModifier: ViewModifier {
     var condition: Bool
@@ -40,7 +43,8 @@ struct CalendarView: View {
     
     @State var currentDate: Date = Date()
     @State var isShowingAddEvent = false
-    @State var isCoach = true
+    @State var isCoach: Bool? = nil
+    
     @State var isShowingInfo = false
     @State var blurAmt = 0.0
     
@@ -50,9 +54,8 @@ struct CalendarView: View {
             
             ScrollView(.vertical, showsIndicators: false){
                 VStack(spacing: 20){
-                    CustomDatePickerView(currentDate: $currentDate)
+                    CustomDatePickerView(currentDate: $currentDate, isCoach: $isCoach)
                 }
-          //      .padding(.vertical)
                 .toolbar{
                     Button{
                         isShowingInfo.toggle()
@@ -68,7 +71,7 @@ struct CalendarView: View {
                 }
             }
             .blur(radius: blurAmt)
-            .modifier(ConditionalModifier(condition: isCoach, isShowingAddEvent: $isShowingAddEvent))
+            .modifier(ConditionalModifier(condition: isCoach == true, isShowingAddEvent: $isShowingAddEvent))
             .sheet(isPresented: $isShowingAddEvent){
                 AddEventView()
             }
@@ -81,6 +84,26 @@ struct CalendarView: View {
             }
             
         }
+        .onAppear {
+            let uid = FirebaseManager.shared.currentUser?.uid ?? ""
+            
+            let db = Firestore.firestore()
+            
+            let docRef = db.collection("users").document(uid)
+            
+            docRef.getDocument { (document, error) in
+                if let error = error{
+                    print(error)
+                    self.isCoach = false
+                } else {
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        self.isCoach = data?["isCoach"] as? Bool
+                    }
+                }
+            }
+        }
+        
     }
         
 }

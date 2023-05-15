@@ -71,11 +71,23 @@ struct MainView: View {
                     .clipShape(Capsule())
                 }
                 
+                NavigationLink{
+                    MainMessagesView()
+                } label: {
+                    HStack{
+                        Text("Messages").fontWeight(.bold)
+                    }
+                    .padding()
+                    .foregroundColor(.black)
+                    .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
+                    .clipShape(Capsule())
+                }
+                
                 Image("action-athletics-logo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 90)
-                    .padding(40)
+                    .padding(10)
                 
                 VStack{
                     Text("Podium Finishes")

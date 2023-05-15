@@ -59,9 +59,9 @@ struct UserView: View {
                 HStack{
                     
                     Button("Sign Out"){
-                        let firebaseAuth = Auth.auth()
+                        
                         do {
-                            try firebaseAuth.signOut()
+                            try FirebaseManager.shared.auth.signOut()
                             showingLoginAndSignUpView = true
                             showingMainView = false
                         } catch let signOutError as NSError {
