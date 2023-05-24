@@ -6,14 +6,44 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseCore
+import FirebaseDatabase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+struct GroupRecentMessage: Codable, Identifiable {
+    
+    @DocumentID var id: String?
+    
+    let text, fromId: String
+    let timestamp: Date
+    
+    var timeAgo: String{
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter.localizedString(for: timestamp, relativeTo: Date())
+    }
+    
+}
 
 struct MainMessagesView: View {
     
     @ObservedObject private var vm = MainMessagesViewModel()
     @State private var shouldShowMessageScreen = false
     @State var shouldNavigateToChatLogView = false
+    @State var shouldNavigateToGroupChatLogView = false
+    
+    var groupRecentMsg: GroupRecentMessage {
+        let msg = FirebaseManager.shared.firestore
+            .collection("group-recent-messages")
+        print(msg.document())
+        
+        return GroupRecentMessage(text: "Hi", fromId: "123456", timestamp: Date())
+    }
     
     private var chatLogViewModel = ChatLogViewModel(chatUser: nil)
+    private var groupChatLogViewModel = GroupChatLogViewModel()
     
     var body: some View {
         VStack{
@@ -24,9 +54,13 @@ struct MainMessagesView: View {
             NavigationLink("", isActive: $shouldNavigateToChatLogView) {
                 ChatLogView(chatUser: self.chatUser)
             }
+            NavigationLink("", isActive: $shouldNavigateToGroupChatLogView) {
+                GroupChatLogView()
+            }
 
             
         }
+        .onAppear()
         .overlay(Button{
             shouldShowMessageScreen.toggle()
         } label: {
@@ -84,6 +118,34 @@ struct MainMessagesView: View {
     private var messagesView: some View {
         ScrollView{
             
+            VStack{
+                Button{
+                    self.groupChatLogViewModel.fetchMessages()
+                    self.shouldNavigateToGroupChatLogView.toggle()
+                } label: {
+                    HStack(spacing: 16) {
+                        VStack(alignment: .leading, spacing: 8){
+                            Text("Whole Team")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(Color(.label))
+                            Text(groupRecentMsg.text)
+                                .font(.system(size: 14))
+                                .foregroundColor(Color(.darkGray))
+                                .multilineTextAlignment(.leading)
+                        }
+                        Spacer()
+                        Text(groupRecentMsg.timeAgo)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color(.label))
+                    }
+                    
+                }
+            }
+            .padding(10)
+            
+            Divider()
+                .padding(.vertical, 8)
+            
             ForEach(vm.recentMessages){ msg in
                 VStack{
                     Button{
@@ -95,15 +157,6 @@ struct MainMessagesView: View {
                         self.chatLogViewModel.chatUser = self.chatUser
                         self.chatLogViewModel.fetchMessages()
                         self.shouldNavigateToChatLogView.toggle()
-                        
-//                        print(msg.email)
-//                        self.shouldNavigateToChatLogView.toggle()
-//
-//                        let data = FirebaseManager.shared.firestore
-//                            .collection("users")
-//                            .whereField("email", isEqualTo: msg.email)
-//
-//                        self.chatUser = ChatUser(data: data)
                             
                     }label:{
                         HStack(spacing: 16){
@@ -135,6 +188,10 @@ struct MainMessagesView: View {
             
         }
         .padding(.bottom, 50)
+    }
+    
+    func getRecentMessages(){
+        return
     }
 }
 

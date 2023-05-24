@@ -15,12 +15,8 @@
 		96234CE0298C3B030096CAFF /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96234CDF298C3B030096CAFF /* CalendarView.swift */; };
 		96234CEC298D85D40096CAFF /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */; };
 		963630942A042B3F00276F1F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 963630932A042B3F00276F1F /* FirebaseFirestoreSwift */; };
-		964440E329E0816700FBC665 /* TitleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964440E229E0816700FBC665 /* TitleRow.swift */; };
-		964440E529E0848F00FBC665 /* CommunicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964440E429E0848E00FBC665 /* CommunicationView.swift */; };
 		964440E729E084FD00FBC665 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964440E629E084FD00FBC665 /* Message.swift */; };
-		964440E929E0857100FBC665 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964440E829E0857100FBC665 /* MessageBubble.swift */; };
 		964440EB29E08A3B00FBC665 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964440EA29E08A3A00FBC665 /* Extensions.swift */; };
-		964440ED29E4627D00FBC665 /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964440EC29E4627C00FBC665 /* MessageField.swift */; };
 		96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF62900F11D00582AE3 /* Action_AppApp.swift */; };
 		96659DF92900F11D00582AE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96659DF82900F11D00582AE3 /* ContentView.swift */; };
 		96659DFB2900F12200582AE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96659DFA2900F12200582AE3 /* Assets.xcassets */; };
@@ -30,6 +26,7 @@
 		96710CAB29E9BC2A0031ADE5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 96710CAA29E9BC2A0031ADE5 /* FirebaseStorage */; };
 		9672A49729B64E09007D1515 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9672A49629B64E09007D1515 /* FirebaseDatabase */; };
 		9672A49929B64E09007D1515 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9672A49829B64E09007D1515 /* FirebaseDatabaseSwift */; };
+		96844A6A2A169C2B008DEC7D /* GroupChatLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96844A692A169C2A008DEC7D /* GroupChatLogView.swift */; };
 		968A3A25299D4CF900E25B83 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A3A24299D4CF900E25B83 /* AddEventView.swift */; };
 		9691190B29385DE90017DA3C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190A29385DE90017DA3C /* UserInfo.swift */; };
 		9691190D29385EDE0017DA3C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691190C29385EDE0017DA3C /* UserView.swift */; };
@@ -49,12 +46,8 @@
 		961E350329AFD10F00EECB90 /* ColorInforView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInforView.swift; sourceTree = "<group>"; };
 		96234CDF298C3B030096CAFF /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		96234CEB298D85D40096CAFF /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
-		964440E229E0816700FBC665 /* TitleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRow.swift; sourceTree = "<group>"; };
-		964440E429E0848E00FBC665 /* CommunicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationView.swift; sourceTree = "<group>"; };
 		964440E629E084FD00FBC665 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		964440E829E0857100FBC665 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		964440EA29E08A3A00FBC665 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		964440EC29E4627C00FBC665 /* MessageField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageField.swift; sourceTree = "<group>"; };
 		96659DF32900F11D00582AE3 /* Action-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Action-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96659DF62900F11D00582AE3 /* Action_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action_AppApp.swift; sourceTree = "<group>"; };
 		96659DF82900F11D00582AE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -62,6 +55,7 @@
 		96659DFD2900F12200582AE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		96710CA629E8777C0031ADE5 /* MainMessagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessagesViewModel.swift; sourceTree = "<group>"; };
 		96710CA829E879900031ADE5 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		96844A692A169C2A008DEC7D /* GroupChatLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatLogView.swift; sourceTree = "<group>"; };
 		968A3A24299D4CF900E25B83 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		9691190A29385DE90017DA3C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		9691190C29385EDE0017DA3C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
@@ -95,12 +89,12 @@
 		96659DEA2900F11D00582AE3 = {
 			isa = PBXGroup;
 			children = (
+				96844A692A169C2A008DEC7D /* GroupChatLogView.swift */,
 				969EC60229F1B3470002D2E7 /* ChatLogView.swift */,
 				969EC5FE29EF85970002D2E7 /* CreateNewMessageView.swift */,
 				96710CA829E879900031ADE5 /* FirebaseManager.swift */,
 				96710CA629E8777C0031ADE5 /* MainMessagesViewModel.swift */,
 				96BD162B29E7138300C8DBB1 /* MainMessagesView.swift */,
-				964440EC29E4627C00FBC665 /* MessageField.swift */,
 				968A3A24299D4CF900E25B83 /* AddEventView.swift */,
 				96234CDF298C3B030096CAFF /* CalendarView.swift */,
 				96DA467B299FF776007E5352 /* CustomDatePickerView.swift */,
@@ -111,11 +105,8 @@
 				96A675E82982FD0F0079527A /* CurrentUser.swift */,
 				96053C182971D13E00EBE9FA /* GoogleService-Info.plist */,
 				96EE9FDD296C77C900E74115 /* MainView.swift */,
-				964440E229E0816700FBC665 /* TitleRow.swift */,
-				964440E429E0848E00FBC665 /* CommunicationView.swift */,
 				964440EA29E08A3A00FBC665 /* Extensions.swift */,
 				964440E629E084FD00FBC665 /* Message.swift */,
-				964440E829E0857100FBC665 /* MessageBubble.swift */,
 				9691190C29385EDE0017DA3C /* UserView.swift */,
 				9691190A29385DE90017DA3C /* UserInfo.swift */,
 				9607869A2925E10B000AFB00 /* SteapView.swift */,
@@ -243,24 +234,21 @@
 			files = (
 				961E350429AFD10F00EECB90 /* ColorInforView.swift in Sources */,
 				9691190B29385DE90017DA3C /* UserInfo.swift in Sources */,
-				964440ED29E4627D00FBC665 /* MessageField.swift in Sources */,
 				969EC5FF29EF85970002D2E7 /* CreateNewMessageView.swift in Sources */,
 				96EE9FDE296C77C900E74115 /* MainView.swift in Sources */,
 				964440E729E084FD00FBC665 /* Message.swift in Sources */,
-				964440E529E0848F00FBC665 /* CommunicationView.swift in Sources */,
 				96234CE0298C3B030096CAFF /* CalendarView.swift in Sources */,
 				96DA467C299FF776007E5352 /* CustomDatePickerView.swift in Sources */,
 				964440EB29E08A3B00FBC665 /* Extensions.swift in Sources */,
 				968A3A25299D4CF900E25B83 /* AddEventView.swift in Sources */,
 				96659DF92900F11D00582AE3 /* ContentView.swift in Sources */,
 				96DA468429A008ED007E5352 /* Event.swift in Sources */,
-				964440E329E0816700FBC665 /* TitleRow.swift in Sources */,
 				96710CA729E8777C0031ADE5 /* MainMessagesViewModel.swift in Sources */,
 				96BD162C29E7138300C8DBB1 /* MainMessagesView.swift in Sources */,
+				96844A6A2A169C2B008DEC7D /* GroupChatLogView.swift in Sources */,
 				969EC60329F1B3470002D2E7 /* ChatLogView.swift in Sources */,
 				9691190D29385EDE0017DA3C /* UserView.swift in Sources */,
 				96DA4680299FFBDF007E5352 /* DateValue.swift in Sources */,
-				964440E929E0857100FBC665 /* MessageBubble.swift in Sources */,
 				96659DF72900F11D00582AE3 /* Action_AppApp.swift in Sources */,
 				96A675E92982FD0F0079527A /* CurrentUser.swift in Sources */,
 				96710CA929E879900031ADE5 /* FirebaseManager.swift in Sources */,

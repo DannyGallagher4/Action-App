@@ -20,6 +20,8 @@ struct AddEventView: View {
     @State private var endTime = Date()
     @State private var ageGroupsInvolved = Set<String>()
     @State private var eventType = "Practice"
+    @State private var showAlert = false
+    
     let items = ["Kids", "Mature Kids", "Pre-Teens", "Teens", "Young Adults"]
     let eventTypes = ["Practice", "Competition", "Other"]
     
@@ -61,6 +63,9 @@ struct AddEventView: View {
                 }
                 
             }
+            .alert("Must Enter All Fields", isPresented: $showAlert){
+                Button("OK", role: .cancel){}
+            }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
                     Button("Cancel"){
@@ -88,6 +93,7 @@ struct AddEventView: View {
     }
     
     func saveNewEvent() {
+        
         let calendar = Calendar.current
         let start_date = date
         let end_date = date
@@ -109,26 +115,22 @@ struct AddEventView: View {
         
         let arrayOfAgeGroups = ageGroupsInvolved.sorted(by: {$0 < $1})
         
-        let db = Firestore.firestore()
-        
-        db.collection("events").document("\(UUID().uuidString)").setData([
-            "title": name,
-            "event_type": eventType,
-            "start_date": newStart,
-            "end_date": newEnd,
-            "age_groups": arrayOfAgeGroups
-        ])
-        
-        dismiss()
-        
-        //                    events.forEach{ eventMeta in
-        //                        if isSameDay(date1: eventMeta.eventDate, date2: date){
-        //                            eventMeta.event.append(Event(id: UUID().uuidString, title: name, start_date: newStart, end_date: newEnd, ageGroupsInvolved: arrayOfAgeGroups, eventType: eventType))
-        //                            dismiss()
-        //                        }
-        //                    }
-        //
-        //                    events.append(EventMetaData(event: [Event(id: UUID().uuidString, title: name, start_date: newStart, end_date: newEnd, ageGroupsInvolved: arrayOfAgeGroups, eventType: eventType)], eventDate: date))
+        if (name.isEmpty || arrayOfAgeGroups.isEmpty){
+            showAlert = true
+        } else {
+            
+            let db = Firestore.firestore()
+            
+            db.collection("events").document("\(UUID().uuidString)").setData([
+                "title": name,
+                "event_type": eventType,
+                "start_date": newStart,
+                "end_date": newEnd,
+                "age_groups": arrayOfAgeGroups
+            ])
+            
+            dismiss()
+        }
     }
 }
 

@@ -86,6 +86,14 @@ class MainMessagesViewModel: ObservableObject {
             }
     }
     
+//    @Published var recentMessageGroup = RecentMessage(text: "", fromId: "", toId: "", email: "", timestamp: Date())
+//
+//    private func fetchRecentGroupMessage(){
+//        let msg = FirebaseManager.shared.firestore
+//            .collection("group-recent-messages")
+//
+//    }
+    
     private func fetchCurrentUser() {
         
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {

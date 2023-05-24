@@ -1,46 +1,34 @@
 //
-//  ChatLogView.swift
+//  GroupChatLogView.swift
 //  Action-App
 //
-//  Created by Danny Gallagher on 4/20/23.
+//  Created by Danny Gallagher on 5/18/23.
 //
 
 import SwiftUI
 import Firebase
 
-struct FirebaseConstants{
-    static let fromId = "fromId"
-    static let toId = "toId"
-    static let text = "text"
-    static let timestamp = "timestamp"
-    static let email = "email"
-}
-
-struct ChatMessage: Identifiable{
+struct GroupChatMessage: Identifiable{
     var id: String { documentId }
     
     let documentId: String
     
-    let fromId, toId, text: String
+    let fromId, text: String
     
     init(documentId: String, data: [String: Any]){
         self.documentId = documentId
         self.fromId = data[FirebaseConstants.fromId] as? String ?? ""
-        self.toId = data[FirebaseConstants.toId] as? String ?? ""
         self.text = data[FirebaseConstants.text] as? String ?? ""
     }
 }
 
-class ChatLogViewModel: ObservableObject{
+class GroupChatLogViewModel: ObservableObject{
     @Published var chatText = ""
     @Published var errorMessage = ""
     @Published var chatMessages = [ChatMessage]()
-    
-    var chatUser: ChatUser?
-    
-    init(chatUser: ChatUser?){
-        self.chatUser = chatUser
-        
+
+
+    init(){
         fetchMessages()
     }
     
@@ -50,16 +38,12 @@ class ChatLogViewModel: ObservableObject{
         
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else {return}
         
-        guard let toId = chatUser?.uid else {return}
-        
         let document =
             FirebaseManager.shared.firestore
-                .collection("messages")
-                .document(fromId)
-                .collection(toId)
+                .collection("group-messages")
                 .document()
         
-        let messageData = [FirebaseConstants.fromId: fromId, FirebaseConstants.toId: toId, FirebaseConstants.text: self.chatText, "timestamp": Timestamp()] as [String: Any]
+        let messageData = [FirebaseConstants.fromId: fromId, FirebaseConstants.text: self.chatText, "timestamp": Timestamp()] as [String: Any]
         
         document.setData(messageData){ error in
             if let error = error{
@@ -73,40 +57,23 @@ class ChatLogViewModel: ObservableObject{
             self.count += 1
         }
         
-        let recipientMessageDocument =
-            FirebaseManager.shared.firestore
-                .collection("messages")
-                .document(toId)
-                .collection(fromId)
-                .document()
-        
-        recipientMessageDocument.setData(messageData){ error in
-            if let error = error{
-                self.errorMessage = "Failed to save message: \(error)"
-                return
-            }
-        }
     }
     
     private func persistRecentMessage(){
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {return}
-        guard let toId = self.chatUser?.uid else {return}
-        guard let chatUser = chatUser else {return}
-        
+
         let doc = FirebaseManager.shared.firestore
-            .collection("recent_messages")
-            .document(uid)
-            .collection("messages")
-            .document(toId)
+            .collection("group_recent_messages")
+            .document()
         
+        print(doc)
+
         let data = [
             FirebaseConstants.timestamp: Timestamp(),
             FirebaseConstants.text: self.chatText,
             FirebaseConstants.fromId: uid,
-            FirebaseConstants.toId: toId,
-            FirebaseConstants.email: chatUser.email
         ] as [String : Any]
-        
+
         doc.setData(data){ error in
             if let error = error{
                 self.errorMessage = "Failed to save to recents: \(error)"
@@ -118,17 +85,11 @@ class ChatLogViewModel: ObservableObject{
     var firestoreListener: ListenerRegistration?
     
     func fetchMessages(){
-        
-        guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else {return}
-        
-        guard let toId = chatUser?.uid else {return}
-        
+
         firestoreListener?.remove()
         chatMessages.removeAll()
         firestoreListener = FirebaseManager.shared.firestore
-            .collection("messages")
-            .document(fromId)
-            .collection(toId)
+            .collection("group-messages")
             .order(by: "timestamp")
             .addSnapshotListener{ querySnapshot, error in
                 if let error = error{
@@ -136,35 +97,32 @@ class ChatLogViewModel: ObservableObject{
                     print("error fetching messages: \(error)")
                     return
                 }
-                
+
                 querySnapshot?.documentChanges.forEach({ change in
                     if change.type == .added{
                         let data = change.document.data()
                         self.chatMessages.append(.init(documentId: change.document.documentID, data: data))
                     }
-                        
+
                 })
                 DispatchQueue.main.async {
                     self.count += 1
                 }
-                
-                
+
+
             }
     }
     
     @Published var count = 0
 }
 
-struct ChatLogView: View {
+struct GroupChatLogView: View {
     
-    let chatUser: ChatUser?
-    
-    init(chatUser: ChatUser?){
-        self.chatUser = chatUser
-        self.vm = .init(chatUser: chatUser)
+    init(){
+        self.vm = .init()
     }
     
-    @ObservedObject var vm: ChatLogViewModel
+    @ObservedObject var vm: GroupChatLogViewModel
     
     var body: some View {
         
@@ -172,7 +130,7 @@ struct ChatLogView: View {
             messagesView
             Text(vm.errorMessage)
         }
-        .navigationTitle(chatUser?.email ?? "")
+        .navigationTitle("Whole Team")
         .navigationBarTitleDisplayMode(.inline)
 //        .navigationBarItems(trailing: Button(action: {
 //            vm.count += 1
@@ -239,7 +197,7 @@ struct ChatLogView: View {
     }
 }
 
-struct MessageView: View {
+struct GroupMessageView: View {
     
     let message: ChatMessage
     
@@ -275,21 +233,8 @@ struct MessageView: View {
     }
 }
 
-struct DescriptionPlaceholder: View {
-    var body: some View {
-        HStack {
-            Text("Message")
-                .foregroundColor(Color(.gray))
-                .font(.system(size: 17))
-                .padding(.leading, 5)
-                .padding(.top, -4)
-            Spacer()
-        }
-    }
-}
-
-struct ChatLogView_Previews: PreviewProvider {
+struct GroupChatLogView_Previews: PreviewProvider {
     static var previews: some View {
-        ColorInforView()
+        GroupChatLogView()
     }
 }
