@@ -55,19 +55,6 @@ struct MainView: View {
                         .frame(width: 200)
                         .padding(10)
                     
-                    NavigationLink{
-                        
-                        GroupChatLogView()
-                        
-                    } label: {
-                        HStack{
-                            Text("Group chat log").fontWeight(.bold)
-                        }
-                        .padding()
-                        .foregroundColor(.black)
-                        .background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .leading, endPoint: .trailing))
-                        .clipShape(Capsule())
-                    }
                     
                     NavigationLink{
                         

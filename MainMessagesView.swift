@@ -34,13 +34,6 @@ struct MainMessagesView: View {
     @State var shouldNavigateToChatLogView = false
     @State var shouldNavigateToGroupChatLogView = false
     
-    var groupRecentMsg: GroupRecentMessage {
-        let msg = FirebaseManager.shared.firestore
-            .collection("group-recent-messages")
-        print(msg.document())
-        
-        return GroupRecentMessage(text: "Hi", fromId: "123456", timestamp: Date())
-    }
     
     private var chatLogViewModel = ChatLogViewModel(chatUser: nil)
     private var groupChatLogViewModel = GroupChatLogViewModel()
@@ -104,13 +97,7 @@ struct MainMessagesView: View {
                 }
             }
             Spacer()
-            Button{
-                
-            } label: {
-                Image(systemName: "gear")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.label))
-            }
+            
         }
         .padding()
     }
@@ -128,15 +115,9 @@ struct MainMessagesView: View {
                             Text("Whole Team")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(Color(.label))
-                            Text(groupRecentMsg.text)
-                                .font(.system(size: 14))
-                                .foregroundColor(Color(.darkGray))
-                                .multilineTextAlignment(.leading)
+                            
                         }
                         Spacer()
-                        Text(groupRecentMsg.timeAgo)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(Color(.label))
                     }
                     
                 }

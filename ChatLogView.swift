@@ -185,9 +185,9 @@ struct ChatLogView: View {
     
     private var customBottomBar: some View{
         HStack(spacing: 16){
-            Image(systemName: "photo.on.rectangle")
-                .font(.system(size: 24))
-                .foregroundColor(Color(.darkGray))
+//            Image(systemName: "photo.on.rectangle")
+//                .font(.system(size: 24))
+//                .foregroundColor(Color(.darkGray))
             //TextEditor(text: $chatText)
             ZStack {
                 DescriptionPlaceholder()

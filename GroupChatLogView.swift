@@ -13,19 +13,20 @@ struct GroupChatMessage: Identifiable{
     
     let documentId: String
     
-    let fromId, text: String
+    let fromId, text, username: String
     
     init(documentId: String, data: [String: Any]){
         self.documentId = documentId
         self.fromId = data[FirebaseConstants.fromId] as? String ?? ""
         self.text = data[FirebaseConstants.text] as? String ?? ""
+        self.username = data["username"] as? String ?? ""
     }
 }
 
 class GroupChatLogViewModel: ObservableObject{
     @Published var chatText = ""
     @Published var errorMessage = ""
-    @Published var chatMessages = [ChatMessage]()
+    @Published var chatMessages = [GroupChatMessage]()
 
 
     init(){
@@ -35,18 +36,39 @@ class GroupChatLogViewModel: ObservableObject{
     
     func handleSend(){
         print(chatText)
+            
+        guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
-        guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else {return}
         
-        let document =
-            FirebaseManager.shared.firestore
-                .collection("group-messages")
-                .document()
+        FirebaseManager.shared.firestore.collection("users").document(fromId).getDocument { document, error in
+            if let error = error {
+                print(error)
+                let email = ""
+                self.processEmail(email: email)
+            } else {
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let email = data?["email"] as? String ?? ""
+                    self.processEmail(email: email)
+                }
+            }
+        }
         
-        let messageData = [FirebaseConstants.fromId: fromId, FirebaseConstants.text: self.chatText, "timestamp": Timestamp()] as [String: Any]
+    }
+    
+    func processEmail(email: String) {
+    
         
-        document.setData(messageData){ error in
-            if let error = error{
+        guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        
+        let username = email.components(separatedBy: "@").first ?? email
+        
+        let document = FirebaseManager.shared.firestore.collection("group-messages").document()
+        
+        let messageData = ["username": username, FirebaseConstants.fromId: fromId, FirebaseConstants.text: self.chatText, "timestamp": Timestamp()] as [String: Any]
+        
+        document.setData(messageData) { error in
+            if let error = error {
                 self.errorMessage = "Failed to save message: \(error)"
                 return
             }
@@ -56,7 +78,6 @@ class GroupChatLogViewModel: ObservableObject{
             self.chatText = ""
             self.count += 1
         }
-        
     }
     
     private func persistRecentMessage(){
@@ -143,9 +164,9 @@ struct GroupChatLogView: View {
     
     private var customBottomBar: some View{
         HStack(spacing: 16){
-            Image(systemName: "photo.on.rectangle")
-                .font(.system(size: 24))
-                .foregroundColor(Color(.darkGray))
+//            Image(systemName: "photo.on.rectangle")
+//                .font(.system(size: 24))
+//                .foregroundColor(Color(.darkGray))
             //TextEditor(text: $chatText)
             ZStack {
                 DescriptionPlaceholder()
@@ -175,7 +196,7 @@ struct GroupChatLogView: View {
             ScrollViewReader{scrollViewProxy in
                 VStack{
                     ForEach(vm.chatMessages){message in
-                        MessageView(message: message)
+                        GroupMessageView(message: message)
                     }
                     
                     HStack{ Spacer() }
@@ -199,7 +220,7 @@ struct GroupChatLogView: View {
 
 struct GroupMessageView: View {
     
-    let message: ChatMessage
+    let message: GroupChatMessage
     
     var body: some View {
         VStack{
@@ -215,16 +236,24 @@ struct GroupMessageView: View {
                     .cornerRadius(8)
                 }
             } else {
-                HStack{
-                    
+                VStack{
                     HStack{
-                        Text(message.text)
-                            .foregroundColor(.black)
+                        
+                        HStack{
+                            Text(message.text)
+                                .foregroundColor(.black)
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        Spacer()
                     }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    Spacer()
+                    HStack{
+                        Text(message.username)
+                            .font(.system(size: 10))
+                            .foregroundColor(.black)
+                        Spacer()
+                    }
                 }
             }
         }
