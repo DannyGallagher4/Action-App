@@ -48,7 +48,7 @@ struct CreateNewMessageView: View {
         NavigationView{
         
             ScrollView{
-                Text(vm.errorMessage)
+             //   Text(vm.errorMessage)
                 
                 ForEach(vm.users){ user in
                     Button{

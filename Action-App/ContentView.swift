@@ -35,8 +35,8 @@ struct CShapeSignUp: Shape {
 
 struct ContentView: View {
     
-    @State var showingMainView = true
-    @State var showingLoginAndSignUpView = false
+    @State var showingMainView = false
+    @State var showingLoginAndSignUpView = true
     
     @StateObject var currentUser = CurrentUser(myId: "", myEmail: "")
     
@@ -440,9 +440,6 @@ struct SignUpView: View{
     }
     
     private func storeUserInformation(){
-        
-        
-        
         if pass == Repass{
             if coachSignUp{
                 if coachKey == "AA"{
@@ -506,38 +503,6 @@ struct SignUpView: View{
             alertMsg = "Passwords do not match"
             showAlert = true
         }
-        
-        
-//        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
-//
-//        if coachSignUp {
-//            if coachKey == "AA"{
-//                let userData = ["email": email, "uid": uid, "isCoach": true] as [String : Any]
-//                FirebaseManager.shared.firestore.collection("users")
-//                        .document(uid).setData(userData) { err in
-//                            if let err = err {
-//                                print(err)
-//                                return
-//                            }
-//                        }
-//            } else {
-//                alertMsg = "Wrong Coach Key"
-//                showAlert = true
-//                finishSignUp = false
-//            }
-//        } else {
-//
-//            let userData = ["email": email, "uid": uid, "isCoach": false] as [String : Any]
-//            FirebaseManager.shared.firestore.collection("users")
-//                .document(uid).setData(userData) { err in
-//                    if let err = err {
-//                        print(err)
-//                        return
-//                    }
-//
-//                    finishSignUp = true
-//                }
-//        }
     }
     
 }

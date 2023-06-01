@@ -39,12 +39,10 @@ class GroupChatLogViewModel: ObservableObject{
             
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
-        
         FirebaseManager.shared.firestore.collection("users").document(fromId).getDocument { document, error in
             if let error = error {
                 print(error)
-                let email = ""
-                self.processEmail(email: email)
+                return
             } else {
                 if let document = document, document.exists {
                     let data = document.data()
@@ -57,8 +55,6 @@ class GroupChatLogViewModel: ObservableObject{
     }
     
     func processEmail(email: String) {
-    
-        
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
         let username = email.components(separatedBy: "@").first ?? email

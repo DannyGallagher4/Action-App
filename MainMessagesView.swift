@@ -145,17 +145,17 @@ struct MainMessagesView: View {
                                 Text(msg.username)
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(Color(.label))
-                                Text(msg.text)
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color(.darkGray))
-                                    .multilineTextAlignment(.leading)
+//                                Text(msg.text)
+//                                    .font(.system(size: 14))
+//                                    .foregroundColor(Color(.darkGray))
+//                                    .multilineTextAlignment(.leading)
                             }
                             
                             Spacer()
                             
-                            Text(msg.timeAgo)
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(Color(.label))
+//                            Text(msg.timeAgo)
+//                                .font(.system(size: 14, weight: .semibold))
+//                                .foregroundColor(Color(.label))
                         }
                         Spacer()
 
