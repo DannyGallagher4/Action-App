@@ -37,15 +37,48 @@ struct ContentView: View {
     
     @State var showingMainView = false
     @State var showingLoginAndSignUpView = true
+    @State private var isLoading = true
     
     @StateObject var currentUser = CurrentUser(myId: "", myEmail: "")
     
     var body: some View {
-        if showingLoginAndSignUpView{
-            LoginAndSignUpView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
-        } else if showingMainView{
-            MainView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+        
+        VStack{
+            
+            if isLoading{
+                ZStack{
+                    Color.ninjaBlue
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    Image("action-athletics-logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200)
+                        .padding(10)
+                }
+            } else if showingLoginAndSignUpView{
+                LoginAndSignUpView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+            } else if showingMainView{
+                MainView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+            }
         }
+        .onAppear(){
+            checkAuthentication()
+        }
+    }
+    
+    func checkAuthentication() {
+        // Check if a user is signed in
+        if let currentUser = FirebaseManager.shared.auth.currentUser {
+            showingLoginAndSignUpView = false
+            showingMainView = true
+        } else {
+            showingLoginAndSignUpView = true
+            showingMainView = false
+        }
+        
+        // Stop loading
+        isLoading = false
     }
 
 }
