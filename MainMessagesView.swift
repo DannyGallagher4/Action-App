@@ -39,44 +39,49 @@ struct MainMessagesView: View {
     private var groupChatLogViewModel = GroupChatLogViewModel()
     
     var body: some View {
-        VStack{
+        ZStack{
             
-            customNavBar
-            messagesView
+            Color.ninjaBlue.edgesIgnoringSafeArea(.all)
             
-            NavigationLink("", isActive: $shouldNavigateToChatLogView) {
-                ChatLogView(chatUser: self.chatUser)
+            VStack{
+                
+                customNavBar
+                messagesView
+                
+                NavigationLink("", isActive: $shouldNavigateToChatLogView) {
+                    ChatLogView(chatUser: self.chatUser)
+                }
+                NavigationLink("", isActive: $shouldNavigateToGroupChatLogView) {
+                    GroupChatLogView()
+                }
+                
+                
             }
-            NavigationLink("", isActive: $shouldNavigateToGroupChatLogView) {
-                GroupChatLogView()
+            .onAppear()
+            .overlay(Button{
+                shouldShowMessageScreen.toggle()
+            } label: {
+                HStack{
+                    Spacer()
+                    Text("+ New Message")
+                        .font(.system(size: 16, weight: .bold))
+                    Spacer()
+                }
+                .foregroundColor(.white)
+                .padding(.vertical)
+                .background(Color.blue)
+                .cornerRadius(32)
+                .padding(.horizontal)
+                .shadow(radius: 15)
             }
-
-            
+                .fullScreenCover(isPresented: $shouldShowMessageScreen, content: {
+                    CreateNewMessageView(didSelectNewUser: {user in
+                        print(user.email)
+                        self.shouldNavigateToChatLogView.toggle()
+                        self.chatUser = user
+                    })
+                }), alignment: .bottom)
         }
-        .onAppear()
-        .overlay(Button{
-            shouldShowMessageScreen.toggle()
-        } label: {
-            HStack{
-                Spacer()
-                Text("+ New Message")
-                    .font(.system(size: 16, weight: .bold))
-                Spacer()
-            }
-            .foregroundColor(.white)
-            .padding(.vertical)
-            .background(Color.blue)
-            .cornerRadius(32)
-            .padding(.horizontal)
-            .shadow(radius: 15)
-        }
-            .fullScreenCover(isPresented: $shouldShowMessageScreen, content: {
-                CreateNewMessageView(didSelectNewUser: {user in
-                    print(user.email)
-                    self.shouldNavigateToChatLogView.toggle()
-                    self.chatUser = user
-                })
-            }), alignment: .bottom)
     }
     
     @State var chatUser: ChatUser?
@@ -87,14 +92,14 @@ struct MainMessagesView: View {
                 let email = vm.chatUser?.email.replacingOccurrences(of: "@gmail.com", with: "") ?? ""
                 Text(email)
                     .font(.system(size: 24, weight: .bold))
-                HStack{
-                    Circle()
-                        .foregroundColor(.green)
-                        .frame(width:14, height: 14)
-                    Text("online")
-                        .font(.system(size: 12))
-                        .foregroundColor(Color(.lightGray))
-                }
+//                HStack{
+//                    Circle()
+//                        .foregroundColor(.green)
+//                        .frame(width:14, height: 14)
+//                    Text("online")
+//                        .font(.system(size: 12))
+//                        .foregroundColor(Color(.lightGray))
+//                }
             }
             Spacer()
             

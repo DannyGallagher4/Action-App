@@ -103,6 +103,7 @@ struct MainView: View {
             }
         }
         .accentColor(.black)
+        .animation(.default)
         
     }
 }

@@ -36,7 +36,7 @@ struct CShapeSignUp: Shape {
 struct ContentView: View {
     
     @State var showingMainView = false
-    @State var showingLoginAndSignUpView = true
+    @State var showingLoginAndSignUpView = false
     @State private var isLoading = true
     
     @StateObject var currentUser = CurrentUser(myId: "", myEmail: "")
@@ -59,7 +59,9 @@ struct ContentView: View {
             } else if showingLoginAndSignUpView{
                 LoginAndSignUpView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
             } else if showingMainView{
-                MainView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+                withAnimation{
+                    MainView(showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
+                }
             }
         }
         .onAppear(){
@@ -69,16 +71,36 @@ struct ContentView: View {
     
     func checkAuthentication() {
         // Check if a user is signed in
-        if let currentUser = FirebaseManager.shared.auth.currentUser {
-            showingLoginAndSignUpView = false
-            showingMainView = true
-        } else {
-            showingLoginAndSignUpView = true
-            showingMainView = false
+        let loadingTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                // Stop loading after a minimum of 2 seconds
+                
+                // Check if a user is signed in
+            if let currentUser = FirebaseManager.shared.auth.currentUser {
+                showingLoginAndSignUpView = false
+                showingMainView = true
+            } else {
+                // User is not signed in
+                showingLoginAndSignUpView = true
+                showingMainView = false
+            }
+                
+            // Stop loading
+            isLoading = false
         }
-        
-        // Stop loading
-        isLoading = false
+            
+        // Perform the authentication check asynchronously
+        DispatchQueue.global().async {
+            // Simulate authentication check delay
+            Thread.sleep(forTimeInterval: 5)
+            
+            // Invalidate the timer if the check completes before the minimum 2 seconds
+            loadingTimer.invalidate()
+            
+            DispatchQueue.main.async {
+                // Stop loading if the minimum 2 seconds have passed
+                isLoading = false
+            }
+        }
     }
 
 }
