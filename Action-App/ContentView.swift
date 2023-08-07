@@ -116,33 +116,28 @@ struct LoginAndSignUpView: View{
     @State var showingPassword = false
     @State var coachSignUp = false
     
-    @State var coaches = UserDefaults.standard.object(forKey: "coaches") as? [String] ?? [String]()
-    
     @Binding var showingMainView: Bool
     @Binding var showingLoginAndSignUpView: Bool
     @ObservedObject var currentUser: CurrentUser
     
     var body: some View{
-        
-        GeometryReader{_ in
-            
-            VStack{
+        VStack{
                 
-                Image("action-athletics-logo")
-                    .resizable()
-                    .frame(width: 140, height: 140)
-                    .padding(.top, 40)
-                
-                ZStack{
-                    SignUpView(index: $index, showingPassword: $showingPassword, coachSignUp: $coachSignUp, showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView)
-                        .zIndex(Double(index))
-                    
-                    LoginView(index: $index, showingPassword: $showingPassword, showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
-                }
+            Image("action-athletics-logo")
+                .resizable()
+                .frame(width: 140, height: 140)
                 .padding(.top, 20)
+            
+            ZStack{
+                SignUpView(index: $index, showingPassword: $showingPassword, coachSignUp: $coachSignUp, showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView)
+                    .zIndex(Double(index))
+                
+                LoginView(index: $index, showingPassword: $showingPassword, showingMainView: $showingMainView, showingLoginAndSignUpView: $showingLoginAndSignUpView, currentUser: currentUser)
             }
-            .padding(.vertical)
+            .padding(.top, 20)
+            .padding(.bottom, 45)
         }
+        .padding(.vertical)
         .background(Color.ninjaBlue.edgesIgnoringSafeArea(.all))
         
     }
@@ -157,12 +152,17 @@ struct LoginView: View{
     @State private var emailForPassReset = ""
     @State private var showingEmailSent = false
     
+    @FocusState var isInputActive: Bool
+    @FocusState var isInputActive2: Bool
+    @FocusState var isInputActive3: Bool
+    
     @Binding var index: Int
     @Binding var showingPassword: Bool
     @Binding var showingMainView: Bool
     @Binding var showingLoginAndSignUpView: Bool
     
     @ObservedObject var currentUser: CurrentUser
+    
     
     var body: some View{
         ZStack(alignment: .bottom){
@@ -194,6 +194,9 @@ struct LoginView: View{
                         
                         TextField("Email Address", text: $email)
                             .textCase(.lowercase)
+                            .keyboardType(.default)
+                            .focused($isInputActive)
+                            
                     }
                     
                     Divider().background(Color.white.opacity(0.5))
@@ -214,9 +217,15 @@ struct LoginView: View{
                         
                         if showingPassword {
                             TextField("Password", text: $pass)
+                                .keyboardType(.default)
+                                .focused($isInputActive2)
+                                
                         }
                         else {
                             SecureField("Password", text: $pass)
+                                .keyboardType(.default)
+                                .focused($isInputActive3)
+                                
                         }
                     }
                     
@@ -294,6 +303,21 @@ struct LoginView: View{
             .opacity(index == 0 ? 1 : 0)
             
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                if index == 0{
+                    Spacer()
+                    
+                    Button("Done") {
+                        
+                        isInputActive = false
+                        isInputActive2 = false
+                        isInputActive3 = false
+                        
+                    }
+                }
+            }
+        }
         .alert("What email Would You Like To Use To Reset Your Password?", isPresented: $showingPassReset) {
             
             TextField("Email", text: $emailForPassReset)
@@ -321,6 +345,14 @@ struct SignUpView: View{
     @State var pass = ""
     @State var Repass = ""
     @State var coachKey = ""
+    
+    @FocusState var isInputActive: Bool
+    @FocusState var isInputActive2: Bool
+    @FocusState var isInputActive3: Bool
+    @FocusState var isInputActive4: Bool
+    @FocusState var isInputActive5: Bool
+    @FocusState var isInputActive6: Bool
+    @FocusState var isInputActive7: Bool
     
     @State var showAlert = false
     
@@ -368,6 +400,9 @@ struct SignUpView: View{
                         
                         TextField("Email Address", text: $email)
                             .textCase(.lowercase)
+                            .keyboardType(.default)
+                            .focused($isInputActive)
+                            
                     }
                     
                     Divider().background(Color.white.opacity(0.5))
@@ -388,9 +423,15 @@ struct SignUpView: View{
                         
                         if showingPassword {
                             TextField("Password", text: $pass)
+                                .keyboardType(.default)
+                                .focused($isInputActive2)
+                                
                         }
                         else {
                             SecureField("Password", text: $pass)
+                                .keyboardType(.default)
+                                .focused($isInputActive3)
+                                
                         }
                             
                     }
@@ -413,9 +454,15 @@ struct SignUpView: View{
                         
                         if showingPassword {
                             TextField("Re-Enter Password", text: $Repass)
+                                .keyboardType(.default)
+                                .focused($isInputActive4)
+                                
                         }
                         else {
                             SecureField("Re-Enter Password", text: $Repass)
+                                .keyboardType(.default)
+                                .focused($isInputActive5)
+                                
                         }
                     }
                     
@@ -444,9 +491,13 @@ struct SignUpView: View{
                             
                             if showingPassword {
                                 TextField("Coach's Key", text: $coachKey)
+                                    .keyboardType(.default)
+                                    .focused($isInputActive6)
                             }
                             else {
                                 SecureField("Coach's Key", text: $coachKey)
+                                    .keyboardType(.default)
+                                    .focused($isInputActive7)
                             }
                             
                         }
@@ -488,6 +539,23 @@ struct SignUpView: View{
             .offset(y: 25)
             .opacity(index == 1 ? 1 : 0)
             
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                if index == 1{
+                    Spacer()
+                    
+                    Button("Done") {
+                        isInputActive = false
+                        isInputActive2 = false
+                        isInputActive3 = false
+                        isInputActive4 = false
+                        isInputActive5 = false
+                        isInputActive6 = false
+                        isInputActive7 = false
+                    }
+                }
+            }
         }
         .alert(alertMsg, isPresented: $showAlert) {
             Button("Close", role: .cancel){ }
